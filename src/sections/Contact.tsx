@@ -165,21 +165,21 @@ export const Contact: React.FC = () => {
                 <div className="flex items-center gap-8 group">
                   <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center rounded-full text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all"><Phone size={20} /></div>
                   <div>
-                    <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('เบอร์โทรศัพท์', 'Phone')}</p>
+                    <p className="text-[12px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('เบอร์โทรศัพท์', 'Phone')}</p>
                     <p className="text-xl font-medium">084-317-0627 / 098-280-0020</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-8 group">
                   <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center rounded-full text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all"><Mail size={20} /></div>
                   <div>
-                    <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('อีเมล', 'Email')}</p>
+                    <p className="text-[12px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('อีเมล', 'Email')}</p>
                     <p className="text-xl font-medium">thanathep.lawfirm@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-8 group">
                   <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center rounded-full text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all"><MapPin size={20} /></div>
                   <div>
-                    <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('ที่ตั้ง', 'Location')}</p>
+                    <p className="text-[12px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('ที่ตั้ง', 'Location')}</p>
                     <p className="text-xl font-medium">{t('11 ซอยท้ายบ้าน 16 ตำบลปากน้ำ อำเภอเมืองสมุทรปราการ จังหวัดสมุทรปราการ', '11 Soi Taibaanklang 16, Paknampraksa, Muang Samutprakan, Samutprakan, Thailand')}</p>
                   </div>
                 </div>
@@ -187,7 +187,7 @@ export const Contact: React.FC = () => {
                 <div className="flex items-center gap-8 group">
                   <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center rounded-full text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all"><Clock size={20} /></div>
                   <div>
-                    <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('เวลาทำการ', 'Working Hours')}</p>
+                    <p className="text-[12px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('เวลาทำการ', 'Working Hours')}</p>
                     <p className="text-xl font-medium">{t('8:30 น. - 17:30 น.', '8:30 AM - 5:30 PM')}</p>
                   </div>
                 </div>
@@ -195,15 +195,15 @@ export const Contact: React.FC = () => {
                 <div className="pt-8 border-t border-white/5 grid grid-cols-1 gap-6">
                   <a href="https://www.facebook.com/profile.php?id=61577107148720" target="_blank" className="flex items-center gap-6 group hover:translate-x-2 transition-transform">
                     <div className="w-10 h-10 bg-blue-600/10 border border-blue-600/20 flex items-center justify-center rounded-full text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all"><Facebook size={18} /></div>
-                    <span className="text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">{t('กลุ่มเฟซบุ๊กสำนักงาน', 'Facebook Group')}</span>
+                    <span className="text-[14px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">{t('กลุ่มเฟซบุ๊กสำนักงาน', 'Facebook Group')}</span>
                   </a>
                   <a href="https://wa.me/66843170627" target="_blank" className="flex items-center gap-6 group hover:translate-x-2 transition-transform">
                     <div className="w-10 h-10 bg-green-600/10 border border-green-600/20 flex items-center justify-center rounded-full text-green-500 group-hover:bg-green-600 group-hover:text-white transition-all"><MessageCircle size={18} /></div>
-                    <span className="text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">WhatsApp Support</span>
+                    <span className="text-[14px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">WhatsApp Support</span>
                   </a>
                   <a href="mailto:thanathep.lawfirm@gmail.com" target="_blank" className="flex items-center gap-6 group hover:translate-x-2 transition-transform">
                     <div className="w-10 h-10 bg-white-600/10 border border-white-600/20 flex items-center justify-center rounded-full text-white-500 group-hover:bg-gray-600 group-hover:text-white transition-all"><MessageCircle size={18} /></div>
-                    <span className="text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">Gmail Thanathep</span>
+                    <span className="text-[14px] font-black uppercase tracking-widest opacity-60 group-hover:opacity-100">Gmail Thanathep</span>
                   </a>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export const Contact: React.FC = () => {
               <div className="mt-16 pt-10 border-t border-white/5">
                 <button 
                   onClick={() => setShowTrackerModal(true)}
-                  className="w-full border border-[#c5a059] text-[#c5a059] py-5 px-8 font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-4 hover:bg-[#c5a059] hover:text-white transition-all shadow-2xl shadow-[#c5a059]/10"
+                  className="w-full border border-[#c5a059] text-[#c5a059] py-5 px-8 font-black uppercase tracking-widest text-[14px] flex items-center justify-center gap-4 hover:bg-[#c5a059] hover:text-white transition-all shadow-2xl shadow-[#c5a059]/10"
                 >
                   <Search size={16} /> {t('ติดตามสถานะคดีของคุณ', 'TRACK YOUR CASE STATUS')}
                 </button>
@@ -232,7 +232,7 @@ export const Contact: React.FC = () => {
                    <h3 className="text-3xl font-serif-legal font-bold text-slate-900">{t('ส่งข้อความปรึกษาทนาย', 'Legal Consultation Request')}</h3>
                    <div className="flex items-center gap-2 text-slate-400">
                      <ShieldCheck size={16} className="text-[#c5a059]" />
-                     <span className="text-[10px] font-black uppercase tracking-widest">{t('ข้อมูลของคุณเป็นความลับ', 'Secure & Confidential')}</span>
+                     <span className="text-[12px] font-black uppercase tracking-widest">{t('ข้อมูลของคุณเป็นความลับ', 'Secure & Confidential')}</span>
                    </div>
                 </div>
 
@@ -330,19 +330,19 @@ export const Contact: React.FC = () => {
                     <div className="grid grid-cols-2 gap-3">
                        <a href="tel:0843170627" className="flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-[#c5a059] p-4 text-white transition-all rounded-sm border border-white/5 group">
                           <Phone size={18} className="group-hover:scale-110 transition-transform" />
-                          <span className="text-[9px] font-black uppercase tracking-widest">Phone</span>
+                          <span className="text-[12px] font-black uppercase tracking-widest">Phone</span>
                        </a>
                        <a href="mailto:thanathep.lawfirm@gmail.com" className="flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-slate-200 hover:text-slate-900 p-4 text-white transition-all rounded-sm border border-white/5 group">
                           <AtSign size={18} className="group-hover:scale-110 transition-transform" />
-                          <span className="text-[9px] font-black uppercase tracking-widest">Gmail</span>
+                          <span className="text-[12px] font-black uppercase tracking-widest">Gmail</span>
                        </a>
                        <a href="https://wa.me/66843170627" target="_blank" className="flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-green-600 p-4 text-white transition-all rounded-sm border border-white/5 group">
                           <MessageSquare size={18} className="group-hover:scale-110 transition-transform" />
-                          <span className="text-[9px] font-black uppercase tracking-widest">WhatsApp</span>
+                          <span className="text-[12px] font-black uppercase tracking-widest">WhatsApp</span>
                        </a>
                        <a href="https://www.facebook.com/profile.php?id=61577107148720" target="_blank" className="flex flex-col items-center justify-center gap-2 bg-white/5 hover:bg-blue-600 p-4 text-white transition-all rounded-sm border border-white/5 group">
                           <Facebook size={18} className="group-hover:scale-110 transition-transform" />
-                          <span className="text-[9px] font-black uppercase tracking-widest">Facebook</span>
+                          <span className="text-[12px] font-black uppercase tracking-widest">Facebook</span>
                        </a>
                     </div>
                   </div>
@@ -354,7 +354,7 @@ export const Contact: React.FC = () => {
                           <CreditCard size={18} className="text-amber-500" />
                         </div>
                         <div>
-                          <p className="text-amber-500 text-[9px] font-black uppercase tracking-widest">{t('สถานะการชำระเงิน', 'BILLING STATUS')}</p>
+                          <p className="text-amber-500 text-[12px] font-black uppercase tracking-widest">{t('สถานะการชำระเงิน', 'BILLING STATUS')}</p>
                           <p className="text-white text-sm font-bold">{relatedInvoices.length} {t('ใบแจ้งหนี้', 'Invoice(s)')}</p>
                         </div>
                       </div>
@@ -398,7 +398,7 @@ export const Contact: React.FC = () => {
                           <CreditCard size={24} className="text-slate-600" />
                         </div>
                         <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wide">{t('ยังไม่มีใบแจ้งหนี้', 'NO INVOICES YET')}</p>
-                        <p className="text-[9px] text-slate-600 mt-2">{t('ใบแจ้งหนี้จะปรากฏที่นี่เมื่อการสอบปรึกษาเริ่มต้น', 'Invoices will appear here when service begins')}</p>
+                        <p className="text-[12px] text-slate-600 mt-2">{t('ใบแจ้งหนี้จะปรากฏที่นี่เมื่อการสอบปรึกษาเริ่มต้น', 'Invoices will appear here when service begins')}</p>
                       </div>
                     )}
                   </div>
@@ -411,7 +411,7 @@ export const Contact: React.FC = () => {
                         <FileText size={18} className="text-[#c5a059]" />
                       </div>
                       <div>
-                        <p className="text-[#c5a059] text-[9px] font-black uppercase tracking-widest">{t('เอกสารที่ทนายอัปโหลด', 'DOCUMENT REPOSITORY')}</p>
+                        <p className="text-[#c5a059] text-[12px] font-black uppercase tracking-widest">{t('เอกสารที่ทนายอัปโหลด', 'DOCUMENT REPOSITORY')}</p>
                         <p className="text-white text-sm font-bold">{trackingResult.files?.length || 0} {t('ไฟล์', 'File(s)')}</p>
                       </div>
                     </div>
@@ -446,7 +446,7 @@ export const Contact: React.FC = () => {
                           <FileText size={28} className="text-slate-600" />
                         </div>
                         <p className="text-[11px] text-slate-500 uppercase font-bold tracking-wide">{t('ยังไม่มีเอกสารที่อัปโหลด', 'NO DOCUMENTS YET')}</p>
-                        <p className="text-[9px] text-slate-600 mt-2">{t('ทนายความจะอัปโหลดเอกสารของคดีของคุณที่นี่', 'Your attorney will upload case documents here')}</p>
+                        <p className="text-[12px] text-slate-600 mt-2">{t('ทนายความจะอัปโหลดเอกสารของคดีของคุณที่นี่', 'Your attorney will upload case documents here')}</p>
                       </div>
                     )}
                   </div>
@@ -525,7 +525,7 @@ export const Contact: React.FC = () => {
                    </div>
                    
                    <div className="pt-12">
-                     <button onClick={closeTracker} className="text-[9px] font-black text-slate-700 hover:text-white uppercase tracking-[0.3em] transition-all flex items-center gap-4">
+                     <button onClick={closeTracker} className="text-[12px] font-black text-slate-700 hover:text-white uppercase tracking-[0.3em] transition-all flex items-center gap-4">
                        {t('← กลับไปหน้าหลัก', 'BACK TO PORTAL MAIN')}
                      </button>
                    </div>

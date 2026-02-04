@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { useReveal } from '../hooks/useReveal';
-import { Award, GraduationCap, Users, ExternalLink } from 'lucide-react';
+import { ExternalLink, Shield } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface AboutProps {
@@ -12,111 +13,75 @@ export const About: React.FC<AboutProps> = ({ onShowProfile }) => {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="py-48 bg-slate-950 relative overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-        <div ref={ref} className={`${className} flex flex-col lg:flex-row items-start gap-24`}>
+    <section id="about" className="py-48 bg-slate-950 relative overflow-hidden flex flex-col items-center justify-center">
+      {/* Artistic Background Elements */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c5a059]/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-px h-1/2 bg-[#c5a059]"></div>
+        <div className="absolute top-1/4 right-1/4 w-px h-1/2 bg-[#c5a059]"></div>
+      </div>
+
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 w-full flex flex-col items-center">
+        <div ref={ref} className={`${className} relative z-10 w-full max-w-2xl`}>
           
-          {/* Interactive Profile Image Container */}
-          <div className="lg:w-1/2 relative group cursor-pointer" onClick={onShowProfile}>
-            <div className="absolute -bottom-10 -right-10 w-full h-full bg-slate-900 z-0 translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-700"></div>
+          {/* Enhanced Centered Profile Container */}
+          <div className="relative group cursor-pointer" onClick={onShowProfile}>
+            {/* Animated Glow Backlight */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-[#c5a059]/20 to-transparent rounded-sm blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
             
-            <div className="relative z-10 aspect-[4/5] overflow-hidden border border-white/10 shadow-2xl">
+            {/* Luxury Offset Frames */}
+            <div className="absolute -bottom-6 -right-6 w-full h-full border border-[#c5a059]/20 z-0 transition-transform duration-700 group-hover:translate-x-2 group-hover:translate-y-2"></div>
+            <div className="absolute -top-6 -left-6 w-full h-full border border-white/5 z-0 transition-transform duration-700 group-hover:-translate-x-2 group-hover:-translate-y-2"></div>
+            
+            <div className="relative z-10 aspect-[4/5] overflow-hidden border border-white/10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] bg-slate-900">
               <img 
-                src="/profile.jpg" 
-                alt="Professional Profile" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[1.5s] ease-out"
+                src="./profile.jpg" 
+                alt="Thanathep Prohmchana" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2s] ease-out"
                 style={{ objectPosition: '50% 15%' }}
               />
               
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col items-center justify-center">
-                <div className="w-20 h-20 border border-[#c5a059]/50 rounded-full flex items-center justify-center mb-6 scale-50 group-hover:scale-100 transition-transform duration-700 delay-100">
-                   <ExternalLink className="text-[#c5a059]" size={32} />
+              {/* Refined Hover Overlay */}
+              <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col items-center justify-center">
+                <div className="w-24 h-24 border border-[#c5a059]/30 rounded-full flex items-center justify-center mb-8 scale-50 group-hover:scale-100 transition-transform duration-700 delay-100 relative">
+                   <div className="absolute inset-0 border border-[#c5a059]/10 rounded-full animate-ping"></div>
+                   <ExternalLink className="text-[#c5a059]" size={36} />
                 </div>
-                <div className="bg-[#c5a059] text-white px-8 py-4 text-[14px] font-black uppercase tracking-[0.2em] translate-y-10 group-hover:translate-y-0 transition-transform duration-700 delay-200 shadow-2xl">
-                  {t('คลิกเพื่อดูประวัติ', 'VIEW FULL PROFILE')}
+                
+                <div className="overflow-hidden">
+                  <div className="bg-[#c5a059] text-white px-10 py-5 text-[14px] font-black uppercase tracking-[0.2em] translate-y-full group-hover:translate-y-0 transition-transform duration-700 delay-200 shadow-2xl">
+                    {t('ดูประวัติส่วนตัว', 'VIEW BIOGRAPHY')}
+                  </div>
                 </div>
               </div>
 
-              {/* Decorative Corner */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#c5a059]/20 to-transparent pointer-events-none"></div>
+              {/* Decorative Corner Accents */}
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-l-2 border-b-2 border-[#c5a059]/40 m-4 pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-[#c5a059]/40 m-4 pointer-events-none"></div>
+              
+              {/* Professional Icon Accent */}
+              <div className="absolute top-8 left-8 opacity-40">
+                <Shield size={24} className="text-[#c5a059]" />
+              </div>
             </div>
 
-            {/* Floating Tag */}
-            <div className="absolute -left-4 top-1/2 -rotate-90 origin-left z-20 hidden lg:block">
-               <span className="text-[10px] font-black uppercase tracking-[1em] text-white/20">THANATHEP PROHMCHANA</span>
+            {/* Vertical Name Accent - Centered with image */}
+            <div className="absolute -right-12 top-1/2 -rotate-90 origin-center z-20 hidden xl:block">
+               <span className="text-[10px] font-black uppercase tracking-[1.2em] text-white/10 whitespace-nowrap">THANATHEP PROHMCHANA</span>
             </div>
           </div>
 
-          <div className="lg:w-1/2 text-left">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="h-[2px] w-12 bg-[#c5a059]"></div>
-              <span className="text-[#c5a059] text-[13px] font-black uppercase tracking-[0.2em]">
-                {t('ประวัติและความสำเร็จ', 'BIOGRAPHY & ACHIEVEMENTS')}
-              </span>
-            </div>
-            
-            <h2 className="text-5xl md:text-7xl font-serif-legal font-bold text-white mb-12 leading-tight">
-              {t('เกียรติเเละความซื่อสัตย์ในการปฏิบัติงานวิชาชีพ', 'Honors & Integrity In Professional Practice')}
-            </h2>
-
-            <div className="space-y-12 mb-16">
-              <div className="flex gap-8 group">
-                <div className="flex-shrink-0 w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all">
-                  <GraduationCap size={28} />
-                </div>
-                <div>
-                  <h4 className="text-white text-lg font-bold mb-2 font-serif-legal">
-                    {t('การศึกษา', 'EDUCATION')}
-                  </h4>
-                  <p className="text-slate-400 leading-relaxed font-light">
-                    {t('นิติศาสตรบัณฑิต (เกียรตินิยมอันดับ ๒) มหาวิทยาลัยศรีนครินทรวิโรฒ', 'Bachelor of Laws (Second Class Honors), Srinakharinwirot University')} <br />
-                    {t('ประกาศนียบัตรวิชาว่าความ สภาทนายความในพระบรมราชูปถัมภ์', 'Lawyer License Certificate, Lawyers Council of Thailand')}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-8 group">
-                <div className="flex-shrink-0 w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all">
-                  <Users size={28} />
-                </div>
-                <div>
-                  <h4 className="text-white text-lg font-bold mb-2 font-serif-legal">
-                    {t('การเป็นสมาชิก', 'PROFESSIONAL MEMBERSHIPS')}
-                  </h4>
-                  <p className="text-slate-400 leading-relaxed font-light">
-                    • {t('สมาชิกสภาทนายความ ในพระบรมราชูปถัมภ์', 'Member of the Lawyers Council of Thailand')} <br />
-                    • {t('สมาชิกวิสามัญแห่งเนติบัณฑิตยสภา', 'Extraordinary Member of the Thai Bar Association')}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-8 group">
-                <div className="flex-shrink-0 w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all">
-                  <Award size={28} />
-                </div>
-                <div>
-                  <h4 className="text-white text-lg font-bold mb-2 font-serif-legal">
-                    {t('ปรัชญาการทำงาน', 'PRACTICE PHILOSOPHY')}
-                  </h4>
-                  <p className="text-slate-300 italic leading-relaxed font-light">
-                    "{t('มอบความใส่ใจและกลยุทธ์กฎหมายที่แม่นยำ เพื่อรักษาผลประโยชน์สูงสุดของลูกความอย่างตรงไปตรงมา', 'Dedicated attention and precise legal strategies to safeguard client interests with absolute integrity.')}"
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-8">
-              <button 
-                onClick={onShowProfile}
-                className="group flex items-center gap-6 text-[13px] font-black uppercase tracking-[0.3em] text-[#c5a059] hover:text-white transition-all"
-              >
-                {t('ดูประวัติส่วนตัวฉบับเต็ม', 'VIEW FULL BIOGRAPHY')}
-                <div className="w-12 h-[1px] bg-[#c5a059] group-hover:w-24 group-hover:bg-white transition-all"></div>
-              </button>
-            </div>
+          {/* Simple Centered Action Button below image */}
+          <div className="mt-20 flex flex-col items-center space-y-6">
+            <div className="w-px h-16 bg-gradient-to-b from-[#c5a059] to-transparent"></div>
+            <button 
+              onClick={onShowProfile}
+              className="group flex items-center gap-6 text-[20px] font-black uppercase tracking-[0.2em] text-[#c5a059] hover:text-white transition-all"
+            >
+              {t('อ่านประวัติโดยละเอียด', 'OPEN PORTFOLIO')}
+              <div className="w-12 h-[1px] bg-[#c5a059] group-hover:w-24 group-hover:bg-white transition-all duration-700"></div>
+            </button>
           </div>
-
         </div>
       </div>
     </section>

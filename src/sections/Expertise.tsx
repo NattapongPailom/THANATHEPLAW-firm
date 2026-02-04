@@ -12,7 +12,7 @@ export const getServiceCategories = (t: (th: string, en: string) => string): Ser
     title: t('กฎหมายแรงงาน', 'Labor Law'),
     subtitle: t('การบริหารจัดการทรัพยากรมนุษย์เชิงกลยุทธ์', 'Strategic Human Resource Management'),
     icon: <Briefcase />,
-    mainImage: './services/labor-law.jpg',
+    mainImage: 'https://sorasaklaw.com/wp-content/uploads/2024/07/%E0%B8%84%E0%B8%94%E0%B8%B5%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99-%E0%B8%84%E0%B8%B7%E0%B8%AD%E0%B8%AD%E0%B8%B0%E0%B9%84%E0%B8%A3-%E0%B9%83%E0%B8%84%E0%B8%A3%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B8%95%E0%B8%B2%E0%B8%A1%E0%B8%81%E0%B8%8E%E0%B8%AB%E0%B8%A1%E0%B8%B2%E0%B8%A2%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99-1.jpg',
     description: t('บริการที่ปรึกษาและดำเนินคดีด้านแรงงานครบวงจร ตั้งแต่การวางรากฐานสัญญาจ้าง ไปจนถึงการระงับข้อพิพาทในชั้นศาลอย่างมืออาชีพ', 'Comprehensive labor law advisory and litigation services, from contract foundations to professional court dispute resolution.'),
     subServices: [
       { 

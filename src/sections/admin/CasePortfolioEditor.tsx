@@ -94,9 +94,19 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!eventTitle.trim()) return;
+    if (!eventTitle.trim()) {
+      setErrorMessage("กรุณาระบุชื่องาน/ความคืบหน้า");
+      return;
+    }
+    
     if (!pendingUrl.trim() && !pendingFile) {
       setErrorMessage("กรุณากำหนด Link หรือเลือกไฟล์");
+      return;
+    }
+
+    // Validate URL if provided
+    if (pendingUrl.trim() && !pendingUrl.trim().startsWith('http')) {
+      setErrorMessage("❌ URL ไม่ถูกต้อง (ต้องเริ่มด้วย http:// หรือ https://)");
       return;
     }
 
@@ -106,13 +116,28 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
     try {
       let finalFiles = [...(lead.files || [])];
       let finalTimeline = [...(lead.timeline || [])];
-      let fileUrl = pendingUrl;
-      let fileName = docName || "เอกสารแนบ";
+      let fileUrl = pendingUrl.trim();
+      let fileName = docName.trim() || "เอกสารแนบ";
 
-      // Handle file upload to Firestore (base64)
+      console.log(`📝 Form submission:`);
+      console.log(`  - eventTitle: ${eventTitle}`);
+      console.log(`  - fileName: ${fileName}`);
+      console.log(`  - fileUrl: ${fileUrl}`);
+      console.log(`  - pendingFile: ${pendingFile ? pendingFile.name : 'none'}`);
+
+      // Handle file upload to Firebase Storage
       if (pendingFile) {
+        console.log(`📤 Uploading file to Storage...`);
         fileUrl = await backendService.uploadFileAsBase64(pendingFile, lead.id, lead.phone);
-        fileName = docName || pendingFile.name;
+        fileName = docName.trim() || pendingFile.name;
+        console.log(`✅ File uploaded: ${fileUrl.substring(0, 100)}...`);
+      } else {
+        console.log(`🔗 Using URL link: ${fileUrl}`);
+      }
+
+      // Validate that fileUrl exists before saving
+      if (!fileUrl || fileUrl.length === 0) {
+        throw new Error("❌ ไม่สามารถได้รับ URL ไฟล์ - กรุณาลองใหม่");
       }
 
       // Add file reference to files array
@@ -121,7 +146,7 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
         name: fileName,
         url: fileUrl,
         type: 'other',
-        fileSize: pendingFile ? (pendingFile.size / 1024).toFixed(1) + ' KB' : 'Cloud Link',
+        fileSize: pendingFile ? (pendingFile.size / 1024 / 1024).toFixed(2) + ' MB' : 'Cloud Link',
         uploadDate: new Date().toLocaleDateString('th-TH')
       });
 
@@ -136,22 +161,27 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
         isCompleted: true
       });
 
+      console.log(`💾 Updating lead portfolio...`);
       // Update Database
       await backendService.updateLeadPortfolio(lead.id, finalTimeline, finalFiles);
+      console.log(`✅ Portfolio updated`);
 
       // Trigger Email Notification
       if (notifyViaEmail && lead.email) {
-        const downloadLink = pendingFile ? `ดาวน์โหลดจากระบบ Portal` : fileUrl;
-        const emailBody = `เรียนคุณ ${lead.name},\n\nความคืบหน้าล่าสุดในคดีของคุณได้รับการอัปเดตในระบบแล้ว:\n\nสถานะ: ${eventTitle}\nวันที่ดำเนินการ: ${newEventDate} ${eventTime}\n\n📎 เอกสารแนบ: ${fileName}\n🔗 ${pendingFile ? 'สามารถดาวน์โหลดได้ที่ Portal' : 'ลิงก์: ' + fileUrl}\n\nคุณสามารถตรวจสอบรายละเอียดและเอกสารแนบได้ที่ศูนย์ติดตามสถานะคดี (Client Portal) ตลอด 24 ชั่วโมง\n\nด้วยความเคารพ,\nสำนักงานกฎหมาย Elite Counsel`;
+        console.log(`📧 Sending email to ${lead.email}...`);
+        const emailBody = `เรียนคุณ ${lead.name},\n\nความคืบหน้าล่าสุดในคดีของคุณได้รับการอัปเดตในระบบแล้ว:\n\nสถานะ: ${eventTitle}\nวันที่ดำเนินการ: ${newEventDate} ${eventTime}\n\n📎 เอกสารแนบ: ${fileName}\n🔗 Link: ${fileUrl}\n\nคุณสามารถตรวจสอบรายละเอียดและเอกสารแนบได้ที่ศูนย์ติดตามสถานะคดี (Client Portal) ตลอด 24 ชั่วโมง\n\nด้วยความเคารพ,\nสำนักงานกฎหมาย Elite Counsel`;
         
-        await backendService.sendSimulatedEmail({
+        const emailResult = await backendService.sendSimulatedEmail({
           to: lead.email,
           subject: `Elite Counsel Case Update: ${eventTitle}`,
           body: emailBody,
           type: 'milestone',
           canReply: true
         });
+        console.log(`✅ Email sent: ${emailResult.id}`);
       }
+
+      alert("✅ บันทึกความคืบหน้าและส่งอีเมลเรียบร้อยแล้ว");
 
       // Reset form
       setEventTitle('');
@@ -160,6 +190,7 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
       setEventTime(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
       onRefresh();
     } catch (error: any) {
+      console.error('❌ Submit error:', error);
       setErrorMessage(error.message || "เกิดข้อผิดพลาดในการบันทึก");
     } finally {
       setIsProcessing(false);
@@ -306,9 +337,38 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
 
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div className="space-y-4">
+                <label className="text-[10px] uppercase font-black text-slate-500 tracking-widest flex items-center gap-2">
+                  <ExternalLink size={12} className="text-[#c5a059]" /> URL ลิงค์ไฟล์ (Cloud/Drive)
+                </label>
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase font-black text-slate-500 tracking-widest">ระบุชื่อเอกสาร (เพื่อความเป็นระเบียบ)</label>
-                  <input className="w-full bg-slate-950 border border-white/10 p-4 text-white text-sm outline-none focus:border-[#c5a059]" placeholder="เช่น สำเนาคำฟ้อง (ชุดลูกความ)" value={docName} onChange={(e) => setDocName(e.target.value)} />
+                  <input 
+                    type="url"
+                    placeholder="เช่น https://drive.google.com/file/d/xxx หรือ Dropbox link"
+                    value={pendingUrl}
+                    onChange={(e) => {
+                      setPendingUrl(e.target.value);
+                      setPendingFile(null); // Clear file if URL is entered
+                    }}
+                    className="w-full bg-slate-950 border border-white/10 p-4 text-white text-sm outline-none focus:border-[#c5a059] transition-all rounded-sm"
+                  />
+                  {pendingUrl && (
+                    <div className="flex items-start gap-3 p-3 bg-blue-500/10 border border-blue-500/30 rounded-sm">
+                      <ExternalLink size={16} className="text-blue-400 flex-shrink-0 mt-0.5" />
+                      <div className="flex-grow min-w-0">
+                        <p className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Link Ready</p>
+                        <p className="text-[11px] text-slate-300 break-all mt-1">{pendingUrl}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setPendingUrl('')}
+                        className="text-slate-500 hover:text-red-400 flex-shrink-0"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  )}
+                  <label className="text-[10px] uppercase font-black text-slate-500 tracking-widest block mt-4">ระบุชื่อเอกสาร</label>
+                  <input className="w-full bg-slate-950 border border-white/10 p-4 text-white text-sm outline-none focus:border-[#c5a059] rounded-sm" placeholder="เช่น สำเนาคำฟ้อง" value={docName} onChange={(e) => setDocName(e.target.value)} />
                 </div>
               </div>
 
@@ -354,7 +414,7 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
                     type="file"
                     className="hidden"
                     onChange={handleFileSelect}
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif"
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif,.webp"
                   />
                 </div>
                 {pendingFile && (

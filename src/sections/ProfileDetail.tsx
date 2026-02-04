@@ -65,7 +65,7 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
         {/* Visual Column (Left) */}
         <div className="w-full lg:w-2/5 h-[50vh] sm:h-[60vh] lg:h-screen relative lg:sticky lg:top-0 overflow-hidden bg-slate-900">
           <img 
-            src="./profile.jpg" 
+            src="/profile.jpg" 
             alt="Thanathep Prohmchana" 
             className="w-full h-full object-cover"
             style={{ objectPosition: '50% 15%' }}

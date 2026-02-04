@@ -100,13 +100,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                 <span className="text-[8px] font-black uppercase tracking-widest">{isOnline ? 'Firebase Connected' : 'Connection Lost'}</span>
               </div>
             </div>
-            <h1 className="text-5xl font-serif-legal font-bold text-white italic">Elite Command Hub</h1>
+            <h1 className="text-5xl font-serif-legal font-bold text-white italic">Admin Dashboard</h1>
           </div>
           <button 
             onClick={logout} 
             className="text-slate-500 hover:text-red-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-3 transition-colors border border-white/5 px-6 py-3 rounded-sm hover:bg-white/5"
           >
-            <LogOut size={14} /> Terminate Session
+            <LogOut size={14} /> Logout
           </button>
         </div>
 

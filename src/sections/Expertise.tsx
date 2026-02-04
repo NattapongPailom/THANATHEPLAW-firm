@@ -12,7 +12,7 @@ export const getServiceCategories = (t: (th: string, en: string) => string): Ser
     title: t('กฎหมายแรงงาน', 'Labor Law'),
     subtitle: t('การบริหารจัดการทรัพยากรมนุษย์เชิงกลยุทธ์', 'Strategic Human Resource Management'),
     icon: <Briefcase />,
-    mainImage: 'https://images.unsplash.com/photo-1521791136364-798a7bc0d262?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+    mainImage: './services/labor-law.jpg',
     description: t('บริการที่ปรึกษาและดำเนินคดีด้านแรงงานครบวงจร ตั้งแต่การวางรากฐานสัญญาจ้าง ไปจนถึงการระงับข้อพิพาทในชั้นศาลอย่างมืออาชีพ', 'Comprehensive labor law advisory and litigation services, from contract foundations to professional court dispute resolution.'),
     subServices: [
       { 

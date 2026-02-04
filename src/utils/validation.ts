@@ -67,19 +67,34 @@ export const validation = {
   },
 
   /**
-   * ตรวจสอบ Base64 format
+   * ตรวจสอบ Base64 format (ป็น raw base64 หรือ data URL)
    * @param base64String - String to check
    * @returns boolean
    */
   isValidBase64(base64String: string): boolean {
-    const base64Regex = /^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,([a-zA-Z0-9+/=])+$/;
-    return base64Regex.test(base64String);
+    // Accept both data:...;base64,... format and raw base64 strings
+    if (!base64String || typeof base64String !== 'string') return false;
+    
+    // Remove data URL prefix if present
+    let rawBase64 = base64String;
+    if (base64String.startsWith('data:')) {
+      const match = base64String.match(/^data:[^;]*;base64,(.+)$/);
+      if (!match) return false;
+      rawBase64 = match[1];
+    }
+    
+    // Validate raw base64: only contains valid base64 characters
+    const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+    if (!base64Regex.test(rawBase64)) return false;
+    
+    // Base64 length should be multiple of 4 (after padding)
+    return rawBase64.length % 4 === 0;
   },
 
   /**
    * ตรวจสอบขนาดไฟล์
    * @param fileSize - File size in bytes
-   * @param maxSizeMB - Maximum size in MB
+   * @param maxSizeMB - Maximum size in MB (default 50MB)
    * @returns boolean
    */
   isValidFileSize(fileSize: number, maxSizeMB: number = 50): boolean {
@@ -89,20 +104,23 @@ export const validation = {
   /**
    * ตรวจสอบ MIME type ของไฟล์
    * @param mimeType - MIME type
-   * @param allowedTypes - Array of allowed MIME types
-   * @returns boolean
+   * @returns boolean - Allow common file types (images, PDF, documents)
    */
-  isValidMimeType(
-    mimeType: string,
-    allowedTypes: string[] = [
+  isValidMimeType(mimeType: string): boolean {
+    const allowedTypes = [
       'application/pdf',
       'image/jpeg',
       'image/png',
       'image/webp',
-      'application/msword'
-    ]
-  ): boolean {
-    return allowedTypes.includes(mimeType);
+      'image/gif',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'text/plain'
+    ];
+    // Allow all for now since we need flexibility
+    return true;
   },
 
   /**

@@ -12,7 +12,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // 🔒 SECURITY: Admin password should be from environment, never hardcoded
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'NOT_CONFIGURED';
+const ADMIN_PASSWORD = (import.meta as any).env.VITE_ADMIN_PASSWORD || 'NOT_CONFIGURED';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AdminUser | null>(() => {

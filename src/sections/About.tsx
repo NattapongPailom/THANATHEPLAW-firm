@@ -22,7 +22,7 @@ export const About: React.FC<AboutProps> = ({ onShowProfile }) => {
             
             <div className="relative z-10 aspect-[4/5] overflow-hidden border border-white/10 shadow-2xl">
               <img 
-                src="./profile.jpg" 
+                src="/profile.jpg" 
                 alt="Professional Profile" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[1.5s] ease-out"
                 style={{ objectPosition: '50% 15%' }}

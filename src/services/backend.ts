@@ -1,7 +1,8 @@
 
 import { leadService } from './leads';
-import { db } from './firebase';
+import { db, storage } from './firebase';
 import { collection, addDoc, getDocs, query, orderBy, limit, setDoc, doc, deleteDoc, where, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { GoogleGenAI } from "@google/genai";
 import emailjs from '@emailjs/browser';
 import { Lead, NewsItem, CaseStudy, Invoice, ActivityLog, AdminUser, SimulatedEmail, CaseFile } from '../types';
@@ -16,7 +17,7 @@ export const backendService = {
   ...leadService,
 
   /**
-   * 🔒 Upload file with validation and rate limiting
+   * 🔒 Upload file to Firebase Storage (no CORS issues, unlimited file sizes)
    */
   async uploadFileAsBase64(file: File, leadId: string, leadPhone: string): Promise<string> {
     try {
@@ -25,64 +26,68 @@ export const backendService = {
         throw new Error(`❌ Too many uploads. Please try again in ${Math.ceil(rateLimiters.fileUpload.getResetTime(leadPhone) / 1000)} seconds`);
       }
 
-      // 🔒 Validate file size (max 50MB)
-      if (!validation.isValidFileSize(file.size, 50)) {
-        throw new Error('❌ File size exceeds 50MB limit');
+      // 🔒 Validate file size (max 100MB)
+      if (!validation.isValidFileSize(file.size, 100)) {
+        throw new Error('❌ File size exceeds 100MB limit');
       }
 
-      // 🔒 Validate MIME type
-      if (!validation.isValidMimeType(file.type)) {
-        throw new Error(`❌ File type ${file.type} is not allowed`);
-      }
+      console.log(`📤 Uploading to Firebase Storage: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
 
-      // 🔒 Sanitize file name
-      const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      // ทำความสะอาดชื่อไฟล์ - แต่เก็บ Thai characters
+      const sanitizedFileName = file.name
+        .replace(/[\x00-\x1F\x7F]/g, '') // Remove control characters
+        .replace(/[^\p{L}\p{N}\s._\-()]/gu, '') // Keep only safe chars
+        .replace(/\s+/g, ' ')
+        .trim()
+        .substring(0, 200);
 
-      const reader = new FileReader();
-      return new Promise((resolve, reject) => {
-        reader.onload = async () => {
-          const base64String = reader.result as string;
-          
-          // 🔒 Validate base64 format
-          if (!validation.isValidBase64(base64String)) {
-            reject(new Error('Invalid file format'));
-            return;
-          }
+      const finalFileName = sanitizedFileName || `Document_${Date.now()}`;
+      const timestamp = Date.now();
+      const storagePath = `case_files/${leadId}/${timestamp}_${finalFileName}`;
 
-          try {
-            // Store file metadata in Firestore
-            const fileRef = await addDoc(collection(db, "case_files"), {
-              leadId,
-              leadPhone,
-              fileName: sanitizedFileName,
-              fileSize: file.size,
-              fileType: file.type,
-              uploadedAt: new Date().toISOString(),
-              base64Data: base64String,
-              isArchived: false,
-              uploadedBy: 'admin', // 🔒 Track who uploaded
-              checksum: btoa(file.name + file.size + Date.now()) // 🔒 Add tamper detection
-            });
-            
-            // Log activity
-            await backendService.logActivity('FILE_UPLOADED', fileRef.id);
-            
-            // Return a reference URL (not direct base64 for privacy)
-            resolve(`firestore://case_files/${fileRef.id}`);
-          } catch (error: any) {
-            reject(new Error("Failed to store file: " + error.message));
-          }
-        };
-        reader.onerror = () => reject(new Error('Failed to read file'));
-        reader.readAsDataURL(file);
-      });
+      // Upload directly to Firebase Storage
+      const storageRef = ref(storage, storagePath);
+      console.log(`📝 Storage path: ${storagePath}`);
+      
+      const snapshot = await uploadBytes(storageRef, file);
+      console.log(`✅ File uploaded to Storage`);
+
+      // Get download URL
+      const downloadUrl = await getDownloadURL(snapshot.ref);
+      console.log(`🔗 Download URL: ${downloadUrl.substring(0, 100)}...`);
+
+      // Store only metadata in Firestore (NOT the file content)
+      const fileMetadata = {
+        leadId,
+        leadPhone,
+        fileName: finalFileName,
+        originalFileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        storagePath: storagePath,
+        downloadUrl: downloadUrl,
+        uploadedAt: new Date().toISOString(),
+        isArchived: false,
+        uploadedBy: 'admin',
+        checksum: btoa(finalFileName + file.size + Date.now())
+      };
+
+      const fileRef = await addDoc(collection(db, "case_files"), fileMetadata);
+      console.log(`💾 Metadata saved: ${fileRef.id}`);
+
+      // Log activity
+      await backendService.logActivity('FILE_UPLOADED', fileRef.id);
+      
+      // Return download URL (can be used directly)
+      return downloadUrl;
     } catch (error: any) {
+      console.error('❌ Upload error:', error);
       throw new Error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์: " + error.message);
     }
   },
 
   /**
-   * 🔒 Download file with validation
+   * 🔒 Download file from Firebase Storage
    */
   async downloadFileFromFirestore(fileId: string, fileName: string): Promise<void> {
     try {
@@ -91,58 +96,34 @@ export const backendService = {
         throw new Error('Invalid file ID');
       }
 
-      if (!validation.isValidTextLength(fileName, 1, 255)) {
+      if (!validation.isValidTextLength(fileName, 1, 500)) {
         throw new Error('Invalid file name');
       }
 
       console.log(`📥 Downloading file: ${fileName} (${fileId})`);
       
-      // ดึงไฟล์จาก Firestore
-      const fileSnap = await getDocs(query(collection(db, "case_files")));
+      // Get file metadata from Firestore
+      const fileSnap = await getDocs(query(collection(db, "case_files"), where('__name__', '==', fileId)));
       
-      let fileData: any = null;
-      for (const docSnap of fileSnap.docs) {
-        if (docSnap.id === fileId) {
-          fileData = docSnap.data();
-          break;
-        }
-      }
-      
-      if (!fileData || !fileData.base64Data) {
-        throw new Error('ไฟล์ไม่พบในระบบ หรือข้อมูลเสียหาย');
+      if (fileSnap.empty) {
+        throw new Error('File not found in database');
       }
 
-      // 🔒 Validate MIME type before download
-      if (!validation.isValidMimeType(fileData.fileType)) {
-        throw new Error('File type is not allowed for download');
+      const fileData = fileSnap.docs[0].data();
+      
+      if (!fileData.downloadUrl) {
+        throw new Error('Download URL not found');
       }
+
+      console.log(`✅ Got download URL from Firestore`);
       
-      // แปลง base64 เป็น Blob
-      const base64Data = fileData.base64Data.split(',')[1] || fileData.base64Data;
-      const binaryString = atob(base64Data);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      
-      // สร้าง Blob
-      const mimeType = fileData.fileType || 'application/octet-stream';
-      const blob = new Blob([bytes], { type: mimeType });
-      
-      // 🔒 Sanitize file name for download
-      const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
-      
-      // สร้าง download link และ trigger ดาวน์โหลด
-      const downloadUrl = URL.createObjectURL(blob);
+      // Open download URL (browser will handle the download)
       const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = sanitizedFileName;
+      link.href = fileData.downloadUrl;
+      link.download = fileName || 'download';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      // Clean up
-      URL.revokeObjectURL(downloadUrl);
 
       // Log activity
       await backendService.logActivity('FILE_DOWNLOADED', fileId);
@@ -318,39 +299,22 @@ export const backendService = {
     
     const leadData = { id: snap.docs[0].id, ...(snap.docs[0].data() as any) } as Lead;
     
-    console.log('📱 Found Lead:', { id: leadData.id, name: leadData.name, phone: leadData.phone });
-    
-    // ดึงไฟล์ทั้งหมดเพื่อ debug
-    const allFilesQ = query(collection(db, "case_files"));
-    const allFilesSnap = await getDocs(allFilesQ);
-    
-    console.log('🔍 ALL FILES IN case_files collection:', allFilesSnap.docs.length, 'documents');
-    allFilesSnap.docs.forEach((d, idx) => {
-      const data = d.data() as any;
-      console.log(`  [${idx}] leadId: "${data.leadId}" | fileName: "${data.fileName}"`);
+    console.log('📱 Found Lead:', { 
+      id: leadData.id, 
+      name: leadData.name, 
+      phone: leadData.phone,
+      filesCount: leadData.files?.length || 0
     });
     
-    // ดึงไฟล์ที่อัปโหลดให้ลูกความคนนี้
-    const filesQ = query(collection(db, "case_files"), where("leadId", "==", leadData.id));
-    const filesSnap = await getDocs(filesQ);
+    // ✅ Files ถูกเก็บอยู่ใน leads[leadId].files แล้ว
+    // ไม่ต้องดึงจาก case_files collection อีก
+    if (leadData.files && leadData.files.length > 0) {
+      console.log('📁 Files from leads.files:', leadData.files.length);
+      leadData.files.forEach((f, idx) => {
+        console.log(`  [${idx}] ${f.name} (${f.fileSize})`);
+      });
+    }
     
-    console.log('📁 Files found:', filesSnap.docs.length, 'for leadId:', leadData.id);
-    
-    const caseFiles: CaseFile[] = filesSnap.docs.map(d => {
-      const data = d.data() as any;
-      console.log('📄 File data:', { fileName: data.fileName, leadId: data.leadId, fileSize: data.fileSize });
-      return {
-        id: d.id,
-        name: data.fileName || 'Unnamed File',
-        url: `firestore://case_files/${d.id}`,
-        type: 'other',
-        fileSize: data.fileSize ? this.formatFileSize(data.fileSize) : 'Unknown',
-        uploadDate: data.uploadedAt ? new Date(data.uploadedAt).toLocaleDateString('th-TH') : 'Unknown'
-      };
-    });
-    
-    console.log('✅ caseFiles array:', caseFiles);
-    leadData.files = caseFiles;
     return leadData;
   },
 

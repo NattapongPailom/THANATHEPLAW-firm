@@ -116,6 +116,8 @@ export interface AdminUser {
   id: string;
   email: string;
   role: 'admin' | 'attorney';
+  loginAt?: string;
+  expiresAt?: string;
 }
 
 export interface SimulatedEmail {

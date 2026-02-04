@@ -180,7 +180,15 @@ export const Contact: React.FC = () => {
                   <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center rounded-full text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all"><MapPin size={20} /></div>
                   <div>
                     <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('ที่ตั้ง', 'Location')}</p>
-                    <p className="text-xl font-medium">สมุทรปราการ, ประเทศไทย</p>
+                    <p className="text-xl font-medium">{t('11 ซอยท้ายบ้าน 16 ตำบลปากน้ำ อำเภอเมืองสมุทรปราการ จังหวัดสมุทรปราการ', '11 Soi Taibaanklang 16, Paknampraksa, Muang Samutprakan, Samutprakan, Thailand')}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-8 group">
+                  <div className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center rounded-full text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-white transition-all"><Clock size={20} /></div>
+                  <div>
+                    <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">{t('เวลาทำการ', 'Working Hours')}</p>
+                    <p className="text-xl font-medium">{t('8:30 น. - 17:30 น.', '8:30 AM - 5:30 PM')}</p>
                   </div>
                 </div>
 
@@ -230,22 +238,22 @@ export const Contact: React.FC = () => {
 
                 <div className="grid md:grid-cols-2 gap-10 text-slate-900">
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.4em] font-black text-[#c5a059]">{t('ชื่อ-นามสกุล', 'Full Name')}</label>
+                    <label className="text-[13px] uppercase tracking-[0.2em] font-black text-[#c5a059]">{t('ชื่อ-นามสกุล', 'Full Name')}</label>
                     <input required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-slate-50 border-b border-slate-200 py-4 focus:border-[#c5a059] outline-none px-4 font-bold" placeholder={t("กรุณากรอกชื่อ", "Full legal name")} />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.4em] font-black text-[#c5a059]">{t('เบอร์โทรศัพท์ติดต่อ', 'Phone Number')}</label>
+                    <label className="text-[13px] uppercase tracking-[0.2em] font-black text-[#c5a059]">{t('เบอร์โทรศัพท์ติดต่อ', 'Phone Number')}</label>
                     <input required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full bg-slate-50 border-b border-slate-200 py-4 focus:border-[#c5a059] outline-none px-4 font-bold" placeholder={t("08x-xxx-xxxx", "Contact number")} />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-10 text-slate-900">
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.4em] font-black text-[#c5a059]">{t('อีเมลสำหรับรับแจ้งเตือน', 'Notification Email')}</label>
+                    <label className="text-[13px] uppercase tracking-[0.2em] font-black text-[#c5a059]">{t('อีเมลสำหรับรับแจ้งเตือน', 'Notification Email')}</label>
                     <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-slate-50 border-b border-slate-200 py-4 focus:border-[#c5a059] outline-none px-4 font-bold" placeholder={t("example@mail.com", "Used for progress updates")} />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.4em] font-black text-[#c5a059]">{t('ประเภทคดีที่ปรึกษา', 'Case Category')}</label>
+                    <label className="text-[13px] uppercase tracking-[0.2em] font-black text-[#c5a059]">{t('ประเภทคดีที่ปรึกษา', 'Case Category')}</label>
                     <select 
                       value={formData.category} 
                       onChange={(e) => setFormData({...formData, category: e.target.value})} 
@@ -257,11 +265,11 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div className="space-y-3 text-slate-900">
-                  <label className="text-[10px] uppercase tracking-[0.4em] font-black text-[#c5a059]">{t('รายละเอียดคดีและข้อสงสัย', 'Matter Details')}</label>
+                  <label className="text-[15px] uppercase tracking-[0.2em] font-black text-[#c5a059]">{t('รายละเอียดคดีและข้อสงสัย', 'Matter Details')}</label>
                   <textarea rows={4} required value={formData.details} onChange={(e) => setFormData({...formData, details: e.target.value})} className="w-full bg-slate-50 border-b border-slate-200 py-4 focus:border-[#c5a059] outline-none px-4 font-bold" placeholder={t("ระบุรายละเอียดหรือคำถามที่ต้องการให้ทนายวิเคราะห์เบื้องต้น", "Please describe your legal issue for preliminary evaluation")}></textarea>
                 </div>
 
-                <button type="submit" disabled={isSubmitting} className="w-full bg-slate-950 text-white py-8 font-black uppercase tracking-[0.5em] text-[11px] hover:bg-[#c5a059] transition-all flex items-center justify-center gap-4 group">
+                <button type="submit" disabled={isSubmitting} className="w-full bg-slate-950 text-white py-8 font-black uppercase tracking-[0.2em] text-[15px] hover:bg-[#c5a059] transition-all flex items-center justify-center gap-4 group">
                   {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : (
                     <>
                       {t('ลงทะเบียนปรึกษาทนายความ', 'REQUEST PROFESSIONAL COUNSEL')}
@@ -446,7 +454,7 @@ export const Contact: React.FC = () => {
 
                 <div className="lg:col-span-2 space-y-8">
                    <div className="flex justify-between items-center border-b border-white/5 pb-4">
-                     <p className="text-white font-black text-[10px] uppercase tracking-widest">{t('บันทึกความคืบหน้าเชิงยุทธศาสตร์', 'CASE STRATEGY TIMELINE')}</p>
+                     <p className="text-white font-black text-[15px] uppercase tracking-widest">{t('บันทึกความคืบหน้าเชิงยุทธศาสตร์', 'CASE STRATEGY TIMELINE')}</p>
                      <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                            <span className="w-2 h-2 rounded-full bg-[#c5a059] animate-pulse"></span>
@@ -489,7 +497,7 @@ export const Contact: React.FC = () => {
                              </div>
                              
                              {idx === 0 && (
-                               <div className="absolute left-20 -top-6">
+                               <div className="absolute left-20 -top-10">
                                   <span className="text-[8px] font-black bg-[#c5a059] text-white px-3 py-1 uppercase tracking-widest rounded-full">New Milestone</span>
                                </div>
                              )}

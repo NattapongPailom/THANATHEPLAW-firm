@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elite Counsel - บริการที่ปรึกษากฎหมายระดับพรีเมียม ความเชี่ยวชาญระดับสากล">
+    <title>The Elite Counsel | World-Class Legal Excellence</title>
+    
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Serif+Thai:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-gold: #c5a059;
+            --brand-dark: #020617;
+        }
+        
+        body {
+            font-family: 'Prompt', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--brand-dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Subtle Background Texture */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .font-serif-legal { font-family: 'Playfair Display', 'Noto Serif Thai', serif; }
+        
+        /* Optimized Animations for Mobile & Desktop */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-reveal-up {
+            animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        .animate-slow-zoom {
+            animation: slowZoom 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes latest-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.7); border-color: rgba(197, 160, 89, 1); }
+            70% { box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); border-color: rgba(197, 160, 89, 0.5); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); border-color: rgba(197, 160, 89, 1); }
+        }
+        .latest-milestone-dot {
+            animation: latest-pulse 2s infinite;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-link-underline {
+            position: relative;
+        }
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: #c5a059;
+            transition: width 0.3s ease;
+        }
+        .nav-link-underline:hover::after {
+            width: 100%;
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 10px; }
+
+        @media (max-width: 768px) {
+            .reveal-on-scroll {
+                transition-duration: 0.6s; /* Faster on mobile */
+            }
+        }
+    </style>
+    
+    <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
+    "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+    "firebase/storage": "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js",
+    "firebase/": "https://esm.sh/firebase@^12.8.0/",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "@emailjs/browser": "https://esm.sh/@emailjs/browser@^4.4.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

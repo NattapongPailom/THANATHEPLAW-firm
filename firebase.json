@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "thanatheplaw-firm"
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": [
+    {
+      "bucket": "thanatheplaw-firm.appspot.com",
+      "rules": "storage.rules"
+    }
+  ]
+}

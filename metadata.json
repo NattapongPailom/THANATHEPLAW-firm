@@ -1,0 +1,8 @@
+{
+  "name": "ThanathepLaw Firm",
+  "description": "A high-end, professional web application for legal practitioners focusing on trust, expertise, and AI-driven intelligence.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}

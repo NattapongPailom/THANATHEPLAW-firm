@@ -210,7 +210,7 @@ export const backendService = {
   async createNews(data: any, broadcast: boolean) {
     const id = Date.now().toString();
     const date = new Date().toLocaleDateString('th-TH');
-    await setDoc(doc(db, "news", id), { ...data, date });
+    await setDoc(doc(db, "news", id), { ...data, date, published: true });
     if (broadcast) {
       const subscribers = await this.getSubscribers();
       for (const email of subscribers) {

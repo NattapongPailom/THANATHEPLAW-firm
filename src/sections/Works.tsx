@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { SectionHeader } from '../components/SectionHeader';
 import { useLanguage } from '../context/LanguageContext';
 import { useReveal } from '../hooks/useReveal';
-import { ArrowRight, Trophy, Loader2 } from 'lucide-react';
+import { ArrowRight, Trophy, Loader2, Scale } from 'lucide-react';
 import { CaseStudy } from '../types';
 import { backendService } from '../services/backend';
 
@@ -20,8 +20,12 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
 
   useEffect(() => {
     const loadCases = async () => {
-      const data = await backendService.getAllCases();
-      setCases(data);
+      try {
+        const data = await backendService.getAllCases();
+        setCases(data);
+      } catch (e) {
+        console.error('Failed to load cases:', e);
+      }
       setLoading(false);
     };
     loadCases();
@@ -59,7 +63,7 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`text-[11px] font-black uppercase tracking-[0.4em] transition-all relative pb-6 ${
+                className={`text-[13px] font-black uppercase tracking-[0.2em] transition-all relative pb-6 ${
                   activeTab === cat.id ? 'text-[#c5a059]' : 'text-slate-500 hover:text-white'
                 }`}
               >
@@ -73,6 +77,11 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
             <div className="py-40 flex flex-col items-center justify-center text-[#c5a059] animate-pulse">
               <Loader2 className="animate-spin mb-6" size={48} />
               <span className="text-[10px] font-black uppercase tracking-[0.5em]">Authenticating Records</span>
+            </div>
+          ) : filteredCases.length === 0 ? (
+            <div className="py-32 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-sm">
+              <Scale size={48} className="text-slate-800 mb-6" />
+              <p className="text-slate-500 text-lg font-serif-legal italic">{t('ข้อมูลจะถูกนำมาแสดงในภายหลัง', 'Content will be available soon')}</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -97,7 +106,7 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
                   <div className="p-12 flex flex-col flex-grow relative z-10">
                     <div className="flex items-center gap-3 text-[#c5a059] mb-6">
                       <Trophy size={14} />
-                      <span className="text-[11px] font-black uppercase tracking-[0.2em]">{work.impact}</span>
+                      <span className="text-[13px] font-black uppercase tracking-[0.2em]">{work.impact}</span>
                     </div>
                     
                     <h3 className="text-2xl font-bold font-serif-legal text-white mb-6 leading-snug group-hover:text-[#c5a059] transition-colors h-[4rem] overflow-hidden italic">

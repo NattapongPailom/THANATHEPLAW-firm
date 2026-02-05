@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { LogOut, LayoutDashboard, Newspaper, Briefcase, Camera, Globe, FileText, CreditCard, ShieldAlert, ChevronDown, Sparkles, Settings, Mail, X, Send, Wifi, WifiOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { SimulatedEmail } from '../types';
 
 // Import Modular Views
@@ -20,9 +21,12 @@ interface AdminDashboardProps {
 type AdminTab = 'leads' | 'news' | 'cases' | 'research' | 'drafter' | 'auditor' | 'finance' | 'logs';
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
-  const { login, logout, isAdmin, user } = useAuth();
+  const { login, logout, isAdmin, user, authReady, loginError, loginErrorCode } = useAuth();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<AdminTab>('leads');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<'ai' | 'cms' | null>(null);
   const [dispatchedEmail, setDispatchedEmail] = useState<SimulatedEmail | null>(null);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -54,7 +58,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
     };
   }, []);
 
+  if (!authReady) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+        <div className="text-[#c5a059] text-[10px] font-black uppercase tracking-[0.4em]">Loading...</div>
+      </div>
+    );
+  }
+
   if (!isAdmin) {
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setSubmitting(true);
+      await login(email, password);
+      setSubmitting(false);
+    };
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 relative text-center">
         <div className="w-full max-w-md bg-slate-900 p-12 border border-white/10 rounded-sm shadow-2xl animate-reveal-up">
@@ -62,15 +80,40 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
             <h2 className="text-4xl font-serif-legal font-bold text-white mb-2 italic">Elite Portal</h2>
             <p className="text-slate-500 text-[10px] uppercase tracking-[0.4em] font-black">Authorized Access Only</p>
           </div>
-          <form onSubmit={(e) => { e.preventDefault(); login(password); }} className="space-y-10">
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              className="w-full bg-transparent border-b border-white/10 py-5 text-white outline-none focus:border-[#c5a059] text-center text-2xl" 
-              placeholder="••••••••" 
+          <form onSubmit={handleSubmit} className="space-y-10">
+            <input
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent border-b border-white/10 py-5 text-white outline-none focus:border-[#c5a059] text-center text-xl"
+              placeholder={t('อีเมล', 'Email')}
+              required
             />
-            <button className="w-full bg-[#c5a059] text-white py-6 font-black uppercase tracking-widest text-[11px] hover:bg-white hover:text-slate-900 transition-all">INITIATE ACCESS</button>
+            <input
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-transparent border-b border-white/10 py-5 text-white outline-none focus:border-[#c5a059] text-center text-2xl"
+              placeholder="••••••••"
+              required
+            />
+            {loginError && (
+              <div className="text-center space-y-1">
+                <p className="text-red-400 text-sm">{loginError}</p>
+                {loginErrorCode && (
+                  <p className="text-slate-500 text-[10px] font-mono">Firebase: {loginErrorCode}</p>
+                )}
+              </div>
+            )}
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full bg-[#c5a059] text-white py-6 font-black uppercase tracking-widest text-[11px] hover:bg-white hover:text-slate-900 transition-all disabled:opacity-60"
+            >
+              {submitting ? t('กำลังเข้าสู่ระบบ...', 'Logging in...') : 'INITIATE ACCESS'}
+            </button>
             <button type="button" onClick={onBack} className="w-full text-slate-600 text-[9px] uppercase font-black tracking-widest">Return to Public Site</button>
           </form>
         </div>
@@ -104,7 +147,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
           </div>
           <button 
             onClick={logout} 
-            className="text-slate-500 hover:text-red-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-3 transition-colors border border-white/5 px-6 py-3 rounded-sm hover:bg-white/5"
+            className="text-slate-500 hover:text-red-400 text-[15px] font-black uppercase tracking-widest flex items-center gap-3 transition-colors border border-white/5 px-6 py-3 rounded-sm hover:bg-white/5"
           >
             <LogOut size={14} /> Logout
           </button>

@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { CreditCard, Plus, Loader2, Receipt, Download, Trash2 } from 'lucide-react';
 import { backendService } from '../../services/backend';
 import { Invoice, Lead } from '../../types';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const FinanceView: React.FC = () => {
+  const { t } = useLanguage();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
@@ -104,8 +106,14 @@ export const FinanceView: React.FC = () => {
                       <option value="overdue">OVERDUE</option>
                     </select>
                   </td>
-                  <td className="px-8 py-6 text-right">
+                  <td className="px-8 py-6 text-right flex items-center justify-end gap-3">
                     <button className="text-slate-600 hover:text-white transition-colors"><Download size={14} /></button>
+                    <button
+                      onClick={() => { if (confirm(t('ยืนยันการลบรายการนี้ออกจากหน้าจอ?', 'Confirm remove this item from view?'))) setInvoices(prev => prev.filter(i => i.id !== inv.id)); }}
+                      className="text-slate-600 hover:text-red-400 transition-colors"
+                    >
+                      <Trash2 size={14} />
+                    </button>
                   </td>
                 </tr>
               ))}

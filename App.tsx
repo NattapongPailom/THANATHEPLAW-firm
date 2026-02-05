@@ -10,7 +10,6 @@ import { ServiceDetail } from './src/sections/ServiceDetail';
 import { ProfileDetail } from './src/sections/ProfileDetail';
 import { NewsDetail } from './src/sections/NewsDetail';
 import { CaseDetail } from './src/sections/CaseDetail';
-import { LaborService } from './src/sections/LaborService';
 import { News } from './src/sections/News';
 import { Works } from './src/sections/Works';
 import { Contact } from './src/sections/Contact';
@@ -132,7 +131,7 @@ const App: React.FC = () => {
                 )}
 
                 {showProfile && (
-                  <ProfileDetail onBack={() => handleBackToMain('about')} />
+                  <ProfileDetail onBack={(targetId) => handleBackToMain(targetId || 'about')} />
                 )}
                 
                 {selectedService && (
@@ -152,7 +151,6 @@ const App: React.FC = () => {
                     <Hero />
                     <About onShowProfile={handleShowProfile} />
                     <Expertise onSelectService={handleServiceSelect} />
-                    <LaborService />
                     <Works onSelectCase={handleCaseSelect} />
                     <News onSelectNews={handleNewsSelect} />
                     <Contact />

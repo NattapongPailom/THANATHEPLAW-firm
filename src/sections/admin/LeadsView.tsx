@@ -10,6 +10,7 @@ export const LeadsView: React.FC = () => {
   const { t } = useLanguage();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<LeadStatus | 'all'>('all');
   
@@ -17,14 +18,24 @@ export const LeadsView: React.FC = () => {
   const [showMgmtModal, setShowMgmtModal] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = backendService.onLeadsUpdate((updatedLeads) => {
-      setLeads(updatedLeads);
-      setLoading(false);
-      if (selectedLead) {
-        const current = updatedLeads.find(l => l.id === selectedLead.id);
-        if (current) setSelectedLead(current);
+    const unsubscribe = backendService.onLeadsUpdate(
+      (updatedLeads) => {
+        setLeads(updatedLeads);
+        setLoading(false);
+        setLoadError(null);
+        if (selectedLead) {
+          const current = updatedLeads.find(l => l.id === selectedLead.id);
+          if (current) setSelectedLead(current);
+        }
+      },
+      (error) => {
+        setLoading(false);
+        const msg = error?.message || String(error);
+        setLoadError(msg.includes('Permission') || msg.includes('permission')
+          ? t('Firestore ปฏิเสธการเข้าถึง: กรุณาใช้ Firebase Auth สำหรับ Admin หรือตรวจสอบ Firestore Rules', 'Firestore access denied: Please use Firebase Auth for Admin or check Firestore Rules')
+          : t(`ไม่สามารถเชื่อมต่อฐานข้อมูล: ${msg}`, `Cannot connect to database: ${msg}`));
       }
-    });
+    );
     return () => unsubscribe();
   }, [selectedLead]);
 
@@ -33,7 +44,7 @@ export const LeadsView: React.FC = () => {
   };
 
   const handleDeleteLead = async (id: string) => {
-    if (window.confirm('ยืนยันการลบข้อมูลนี้?')) {
+    if (window.confirm(t('ยืนยันการลบข้อมูลนี้?', 'Confirm delete this data?'))) {
       await backendService.deleteLead(id);
     }
   };
@@ -60,6 +71,16 @@ export const LeadsView: React.FC = () => {
     );
   }
 
+  if (loadError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-40 gap-4 text-left max-w-lg mx-auto">
+        <p className="text-red-400 text-sm font-medium">{t('ไม่สามารถโหลดข้อมูล Leads', 'Cannot load Leads data')}</p>
+        <p className="text-slate-400 text-xs">{loadError}</p>
+        <p className="text-slate-500 text-[10px] mt-2">{t('ตรวจสอบ Firebase config ใน .env และ Firestore Security Rules (ต้องใช้ Firebase Auth สำหรับ Admin เพื่อให้อ่านได้)', 'Check Firebase config in .env and Firestore Security Rules (Firebase Auth required for Admin read access)')}</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="animate-reveal-up space-y-12 pb-20 text-left">
@@ -70,7 +91,7 @@ export const LeadsView: React.FC = () => {
             <ShieldCheck className="text-[#c5a059]" size={20} />
             <div>
               <p className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">Hybrid Storage Active</p>
-              <p className="text-white text-xs">ข้อมูลเคสเก็บใน Cloud | เอกสารลูกความเก็บในเครื่อง (Local Vault)</p>
+              <p className="text-white text-xs">{t('ข้อมูลเคสเก็บใน Cloud | เอกสารลูกความเก็บในเครื่อง (Local Vault)', 'Case data stored in Cloud | Client documents stored locally (Local Vault)')}</p>
             </div>
           </div>
         </div>
@@ -86,7 +107,7 @@ export const LeadsView: React.FC = () => {
 
         <div className="relative">
           <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
-          <input type="text" placeholder="ค้นหาตามชื่อ เบอร์โทร หรืออีเมล..." className="w-full bg-slate-900/50 border border-white/5 py-6 pl-20 pr-8 text-white outline-none focus:border-[#c5a059]/50 rounded-sm" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+          <input type="text" placeholder={t('ค้นหาตามชื่อ เบอร์โทร หรืออีเมล...', 'Search by name, phone or email...')} className="w-full bg-slate-900/50 border border-white/5 py-6 pl-20 pr-8 text-white outline-none focus:border-[#c5a059]/50 rounded-sm" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
         </div>
 
         <div className="bg-slate-900/30 border border-white/5 rounded-sm shadow-2xl overflow-x-auto">

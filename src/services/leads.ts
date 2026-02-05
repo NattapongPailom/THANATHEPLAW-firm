@@ -7,13 +7,17 @@ import { GoogleGenAI } from "@google/genai";
 
 export const leadService = {
   // ซิงค์ข้อมูลจาก Firestore
-  onLeadsUpdate(callback: (leads: Lead[]) => void) {
+  onLeadsUpdate(
+    callback: (leads: Lead[]) => void,
+    onError?: (error: Error) => void
+  ) {
     const q = query(collection(db, "leads"), orderBy("createdAt", "desc"));
     return onSnapshot(q, (snapshot) => {
       const leads = snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) } as Lead));
       callback(leads);
     }, (error) => {
       console.error("Firestore Subscribe Error:", error);
+      onError?.(error instanceof Error ? error : new Error(String(error)));
     });
   },
 

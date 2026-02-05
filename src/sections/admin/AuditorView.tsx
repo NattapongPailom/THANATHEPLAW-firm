@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { Camera, Image as ImageIcon, Sparkles, Loader2, ShieldAlert } from 'lucide-react';
 import { backendService } from '../../services/backend';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const AuditorView: React.FC = () => {
+  const { t } = useLanguage();
   const [auditImage, setAuditImage] = useState<string | null>(null);
   const [auditResult, setAuditResult] = useState('');
   const [isAuditing, setIsAuditing] = useState(false);
@@ -37,7 +39,7 @@ export const AuditorView: React.FC = () => {
           <Camera className="text-[#c5a059]" size={32} />
           <h3 className="text-3xl font-serif-legal font-bold text-white italic">Elite Document Auditor</h3>
         </div>
-        <p className="text-slate-400 text-sm mb-10">อัปโหลดภาพถ่ายสัญญาหรือเอกสารกฎหมายเพื่อให้ AI ตรวจสอบจุดเสี่ยง (Red Flags) และสรุปประเด็นสำคัญทันที</p>
+        <p className="text-slate-400 text-sm mb-10">{t('อัปโหลดภาพถ่ายสัญญาหรือเอกสารกฎหมายเพื่อให้ AI ตรวจสอบจุดเสี่ยง (Red Flags) และสรุปประเด็นสำคัญทันที', 'Upload photos of contracts or legal documents for AI to review red flags and summarize key issues instantly')}</p>
         
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-8">

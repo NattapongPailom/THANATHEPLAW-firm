@@ -218,8 +218,8 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
           <div className="relative inline-block group w-full sm:w-auto">
             <div className="absolute -inset-1 bg-[#c5a059] rounded-sm blur opacity-25 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
             <button 
-              onClick={() => onBack('about')}
-              className="relative w-full sm:w-auto bg-[#c5a059] text-white px-12 sm:px-24 py-6 sm:py-8 text-[12px] sm:text-[14px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] transition-all duration-500 overflow-hidden shadow-2xl flex items-center justify-center gap-6"
+              onClick={() => onBack('contact')}
+              className="relative w-full sm:w-auto bg-[#c5a059] text-white px-12 sm:px-24 py-6 sm:py-8 text-[12px] sm:text-[16px] font-black uppercase tracking-[0.4em] sm:tracking-[0.2em] transition-all duration-500 overflow-hidden shadow-2xl flex items-center justify-center gap-6"
             >
               <span className="relative z-10">{t('จองเวลาปรึกษาทันที', 'BOOK YOUR SESSION NOW')}</span>
               <div className="w-8 h-[1px] bg-white group-hover:w-12 transition-all duration-500"></div>

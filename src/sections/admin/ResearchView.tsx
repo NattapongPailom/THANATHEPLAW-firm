@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { Globe, Loader2, ExternalLink, BookOpen } from 'lucide-react';
 import { backendService } from '../../services/backend';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const ResearchView: React.FC = () => {
+  const { t } = useLanguage();
   const [researchQuery, setResearchQuery] = useState('');
   const [researchResult, setResearchResult] = useState<{ text: string, sources: any[] } | null>(null);
   const [isResearching, setIsResearching] = useState(false);
@@ -29,13 +31,13 @@ export const ResearchView: React.FC = () => {
           <Globe className="text-[#c5a059]" size={32} />
           <h3 className="text-3xl font-serif-legal font-bold text-white italic">Elite AI Research</h3>
         </div>
-        <p className="text-slate-400 text-sm mb-10">ค้นหาและสรุปประเด็นข้อกฎหมายจากแหล่งข้อมูลที่เป็นปัจจุบันที่สุดด้วยระบบ Google Search Grounding</p>
+        <p className="text-slate-400 text-sm mb-10">{t('ค้นหาและสรุปประเด็นข้อกฎหมายจากแหล่งข้อมูลที่เป็นปัจจุบันที่สุดด้วยระบบ Google Search Grounding', 'Search and summarize legal issues from the most up-to-date sources using Google Search Grounding')}</p>
         
         <form onSubmit={handleResearch} className="flex gap-4 mb-12">
           <input 
             type="text" 
             className="flex-grow bg-slate-800 border-b border-white/10 py-5 px-8 text-white outline-none focus:border-[#c5a059] text-lg" 
-            placeholder="ระบุประเด็นที่ต้องการค้นคว้า เช่น 'การเลิกจ้างพนักงานช่วงทดลองงาน 2567'..." 
+            placeholder={t("ระบุประเด็นที่ต้องการค้นคว้า เช่น 'การเลิกจ้างพนักงานช่วงทดลองงาน 2567'...", "Enter research topic e.g. 'employee termination during probation period'...")} 
             value={researchQuery} 
             onChange={(e) => setResearchQuery(e.target.value)} 
           />

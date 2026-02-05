@@ -43,8 +43,8 @@ service cloud.firestore {
       // Only admins can write/delete
       allow create, update, delete: if isAdmin();
       
-      // Everyone can read published news
-      allow read: if resource.data.published == true;
+      // Admins can read all news, public can read published news
+      allow read: if isAdmin() || resource.data.published == true;
     }
 
     // ===== CASE STUDIES COLLECTION =====
@@ -69,8 +69,31 @@ service cloud.firestore {
     }
 
     // ===== ADMIN USERS COLLECTION =====
-    match /admins/{document=**} {
-      // Only admins can manage other admins
+    match /admins/{userId} {
+      // User can read their own document (to check if they are admin)
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Only admins can create/update/delete admin records
+      allow write: if isAdmin();
+    }
+
+    // ===== CASES COLLECTION (CMS) – หน้า "ลูกค้าของเรา" แสดงให้คนทั่วไปดูได้
+    match /cases/{document=**} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ===== INVOICES COLLECTION =====
+    match /invoices/{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // ===== SUBSCRIBERS COLLECTION (newsletter) =====
+    match /subscribers/{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // ===== SENT EMAILS LOG =====
+    match /sent_emails/{document=**} {
       allow read, write: if isAdmin();
     }
 

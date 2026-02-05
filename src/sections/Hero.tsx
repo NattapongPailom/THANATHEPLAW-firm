@@ -45,12 +45,12 @@ export const Hero: React.FC = () => {
 
           {/* CTA Section */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 w-full sm:w-auto animate-reveal-up" style={{animationDelay: '0.6s'}}>
-            <a href="#contact" className="group bg-[#c5a059] hover:bg-white text-white hover:text-slate-950 px-8 sm:px-16 py-5 sm:py-7 text-[11px] sm:text-[12px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] transition-all flex items-center justify-center gap-4 sm:gap-6 shadow-2xl relative overflow-hidden">
+            <a href="#contact" className="group bg-[#c5a059] hover:bg-white text-white hover:text-slate-950 px-8 sm:px-16 py-5 sm:py-7 text-[11px] sm:text-[15px] font-black uppercase tracking-[0.3em] sm:tracking-[0.2em] transition-all flex items-center justify-center gap-4 sm:gap-6 shadow-2xl relative overflow-hidden">
               <span className="relative z-10">{t('ปรึกษาทนาย', 'FIND OUT MORE')}</span>
               <ArrowRight size={18} className="relative z-10 group-hover:translate-x-2 transition-transform" />
             </a>
             
-            <a href="#about" className="group border border-white/20 hover:border-[#c5a059] px-8 sm:px-16 py-5 sm:py-7 text-[11px] sm:text-[12px] font-black text-white uppercase tracking-[0.3em] sm:tracking-[0.4em] transition-all flex items-center justify-center gap-4 hover:bg-[#c5a059]/5">
+            <a href="#about" className="group border border-white/20 hover:border-[#c5a059] px-8 sm:px-16 py-5 sm:py-7 text-[11px] sm:text-[15px] font-black text-white uppercase tracking-[0.3em] sm:tracking-[0.2em] transition-all flex items-center justify-center gap-4 hover:bg-[#c5a059]/5">
               {t('ทำความรู้จักเรา', 'OUR STORY')}
               <ChevronRight size={16} className="opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
             </a>

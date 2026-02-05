@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { X, Phone, Mail, FileText, ExternalLink, Calendar, Clock, Download, AlertCircle } from 'lucide-react';
 import { Lead, CaseFile } from '../types';
 import { backendService } from '../services/backend';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ClientCaseTrackerProps {
   onClose: () => void;
 }
 
 export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose }) => {
+  const { t } = useLanguage();
   const [phone, setPhone] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [caseData, setCaseData] = useState<Lead | null>(null);
@@ -18,7 +20,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phone.trim()) {
-      setError('กรุณาใส่เบอร์โทรศัพท์');
+      setError(t('กรุณาใส่เบอร์โทรศัพท์', 'Please enter your phone number'));
       return;
     }
 
@@ -33,10 +35,10 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
         setCaseData(lead);
         setFiles(lead.files || []);
       } else {
-        setError('ไม่พบข้อมูลคดีสำหรับเบอร์โทรศัพท์นี้');
+        setError(t('ไม่พบข้อมูลคดีสำหรับเบอร์โทรศัพท์นี้', 'No case data found for this phone number'));
       }
     } catch (err: any) {
-      setError(err.message || 'เกิดข้อผิดพลาดในการค้นหา');
+      setError(err.message || t('เกิดข้อผิดพลาดในการค้นหา', 'An error occurred during search'));
     } finally {
       setIsSearching(false);
     }
@@ -45,7 +47,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
   const handleDownloadFile = (file: CaseFile) => {
     if (file.url.startsWith('firestore://')) {
       // For Firestore-stored files, redirect to view
-      alert('ระบบกำลังประมวลผล กรุณารอสักครู่...');
+      alert(t('ระบบกำลังประมวลผล กรุณารอสักครู่...', 'Processing, please wait...'));
       // In production, this would fetch the file from Firestore
     } else {
       // For external links
@@ -56,12 +58,12 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
   return (
     <div className="fixed inset-0 z-[100000] flex items-center justify-center p-2 sm:p-4 bg-slate-950/90 backdrop-blur-md">
       <div className="w-full max-w-4xl bg-slate-900 border border-[#c5a059]/30 shadow-2xl relative flex flex-col max-h-[95vh] rounded-sm overflow-hidden animate-reveal-up text-left">
-        
+
         {/* Header */}
         <div className="px-6 py-4 sm:px-10 sm:py-8 border-b border-white/5 bg-slate-950 flex justify-between items-start gap-4">
           <div className="flex-1">
             <h2 className="text-3xl sm:text-4xl font-serif-legal font-bold text-white tracking-tight italic">
-              ศูนย์ติดตามสถานะคดี
+              {t('ศูนย์ติดตามสถานะคดี', 'Case Status Tracker')}
             </h2>
             <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest mt-2">CLIENT CASE TRACKER</p>
           </div>
@@ -71,23 +73,23 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
         </div>
 
         <div className="flex-grow overflow-y-auto p-6 sm:p-10 space-y-8">
-          
+
           {/* Search Section */}
           {!caseData && (
             <div className="bg-slate-950/50 p-8 sm:p-10 border border-white/5 space-y-6 rounded-sm">
               <div>
-                <h3 className="text-white font-serif-legal font-bold text-lg italic mb-2">ค้นหาสถานะคดีของคุณ</h3>
-                <p className="text-[11px] text-slate-400 uppercase tracking-widest font-black">กรุณาใส่เบอร์โทรศัพท์ที่ลงทะเบียนกับสำนักงานกฎหมาย</p>
+                <h3 className="text-white font-serif-legal font-bold text-lg italic mb-2">{t('ค้นหาสถานะคดีของคุณ', 'Search Your Case Status')}</h3>
+                <p className="text-[11px] text-slate-400 uppercase tracking-widest font-black">{t('กรุณาใส่เบอร์โทรศัพท์ที่ลงทะเบียนกับสำนักงานกฎหมาย', 'Enter the phone number registered with the law firm')}</p>
               </div>
 
               <form onSubmit={handleSearch} className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase font-black text-slate-500 tracking-widest">เบอร์โทรศัพท์</label>
+                  <label className="text-[10px] uppercase font-black text-slate-500 tracking-widest">{t('เบอร์โทรศัพท์', 'Phone Number')}</label>
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="เช่น 081-2345678"
+                    placeholder={t('เช่น 081-2345678', 'e.g. 081-2345678')}
                     className="w-full bg-slate-950 border border-white/10 p-4 text-white text-sm outline-none focus:border-[#c5a059] rounded-sm transition-all"
                   />
                 </div>
@@ -104,7 +106,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
                   disabled={isSearching}
                   className="w-full bg-[#c5a059] text-white py-4 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-slate-900 transition-all disabled:opacity-50"
                 >
-                  {isSearching ? 'กำลังค้นหา...' : 'ค้นหาสถานะคดี'}
+                  {isSearching ? t('กำลังค้นหา...', 'Searching...') : t('ค้นหาสถานะคดี', 'Search Case Status')}
                 </button>
               </form>
             </div>
@@ -117,14 +119,14 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
               <div className="bg-gradient-to-r from-[#c5a059]/10 to-transparent border border-[#c5a059]/30 p-8 rounded-sm space-y-4">
                 <div className="flex justify-between items-start gap-4">
                   <div>
-                    <h3 className="text-[#c5a059] text-[10px] font-black uppercase tracking-[0.4em] mb-2">เลขประจำตัว</h3>
+                    <h3 className="text-[#c5a059] text-[10px] font-black uppercase tracking-[0.4em] mb-2">{t('เลขประจำตัว', 'Client ID')}</h3>
                     <p className="text-2xl font-bold text-white font-serif-legal">{caseData.name}</p>
                   </div>
                   <button
                     onClick={() => { setCaseData(null); setPhone(''); }}
                     className="text-slate-500 hover:text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest border border-white/10 rounded-sm transition-all hover:bg-white/5"
                   >
-                    ค้นหาคดีอื่น
+                    {t('ค้นหาคดีอื่น', 'Search Another Case')}
                   </button>
                 </div>
 
@@ -132,14 +134,14 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
                   <div className="flex items-center gap-3">
                     <Phone size={16} className="text-[#c5a059]" />
                     <div>
-                      <p className="text-[9px] text-slate-500 uppercase font-black">โทรศัพท์</p>
+                      <p className="text-[9px] text-slate-500 uppercase font-black">{t('โทรศัพท์', 'Phone')}</p>
                       <p className="text-white font-mono text-sm">{caseData.phone}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail size={16} className="text-[#c5a059]" />
                     <div>
-                      <p className="text-[9px] text-slate-500 uppercase font-black">อีเมล</p>
+                      <p className="text-[9px] text-slate-500 uppercase font-black">{t('อีเมล', 'Email')}</p>
                       <p className="text-white font-mono text-sm">{caseData.email || 'N/A'}</p>
                     </div>
                   </div>
@@ -150,7 +152,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
               {(caseData.timeline && caseData.timeline.length > 0) && (
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                    <Calendar size={14} className="text-[#c5a059]" /> ประวัติความคืบหน้าคดี
+                    <Calendar size={14} className="text-[#c5a059]" /> {t('ประวัติความคืบหน้าคดี', 'Case Progress History')}
                   </h4>
                   <div className="space-y-3">
                     {caseData.timeline.sort((a, b) => b.id.localeCompare(a.id)).map((event, idx) => (
@@ -176,7 +178,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
               {(files && files.length > 0) && (
                 <div className="space-y-4">
                   <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                    <FileText size={14} className="text-[#c5a059]" /> เอกสารแนบ
+                    <FileText size={14} className="text-[#c5a059]" /> {t('เอกสารแนบ', 'Attached Documents')}
                   </h4>
                   <div className="space-y-3">
                     {files.map((file) => (
@@ -198,7 +200,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
                           <button
                             onClick={() => handleDownloadFile(file)}
                             className="flex-shrink-0 p-2 hover:bg-white/5 rounded-sm transition-all text-slate-500 hover:text-[#c5a059]"
-                            title="ดาวน์โหลด"
+                            title={t('ดาวน์โหลด', 'Download')}
                           >
                             <Download size={18} />
                           </button>
@@ -212,7 +214,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
               {/* Notes Section */}
               {caseData.notes && caseData.isNotePublic && (
                 <div className="space-y-4">
-                  <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">หมายเหตุจากทนาย</h4>
+                  <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t('หมายเหตุจากทนาย', 'Attorney Notes')}</h4>
                   <div className="bg-slate-950/50 border border-[#c5a059]/20 p-6 rounded-sm">
                     <p className="text-slate-300 text-base leading-relaxed italic">{caseData.notes}</p>
                   </div>
@@ -222,8 +224,8 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
               {/* Empty State */}
               {(!caseData.timeline || caseData.timeline.length === 0) && (!files || files.length === 0) && (
                 <div className="text-center py-12">
-                  <p className="text-slate-500 text-base">ยังไม่มีการอัปเดตสถานะคดี</p>
-                  <p className="text-slate-600 text-sm mt-2">ทนายความจะอัปเดตสถานะคดีของคุณในระบบแล้วจะแจ้งให้ทราบทางอีเมล</p>
+                  <p className="text-slate-500 text-base">{t('ยังไม่มีการอัปเดตสถานะคดี', 'No case status updates yet')}</p>
+                  <p className="text-slate-600 text-sm mt-2">{t('ทนายความจะอัปเดตสถานะคดีของคุณในระบบแล้วจะแจ้งให้ทราบทางอีเมล', 'Your attorney will update your case status and notify you via email')}</p>
                 </div>
               )}
             </>

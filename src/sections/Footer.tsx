@@ -26,16 +26,16 @@ export const Footer: React.FC<FooterProps> = ({ onAdminLink, onCaseTracker }) =>
             </p>
           </div>
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c5a059] mb-8">{t('สถานที่ตั้ง', 'Location')}</h4>
-            <p className="text-slate-400 text-[11px] leading-relaxed font-bold tracking-wider uppercase">
+            <h4 className="text-[15px] font-black uppercase tracking-[0.2em] text-[#c5a059] mb-8">{t('สถานที่ตั้ง', 'Location')}</h4>
+            <p className="text-slate-400 text-[14px] leading-relaxed font-bold tracking-wider uppercase">
               {t('11 ซอยท้ายบ้าน 16 ต.ปากน้ำ', '11 Soi Thai Ban 16, Pak Nam')} <br />
               {t('อ.เมืองสมุทรปราการ', 'Mueang Samut Prakan')} <br />
               {t('จ.สมุทรปราการ 10270', 'Samut Prakan 10270')}
             </p>
           </div>
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-[#c5a059] mb-8">{t('ติดต่อเรา', 'Contact')}</h4>
-            <p className="text-slate-400 text-[11px] leading-relaxed font-bold tracking-wider uppercase">
+            <h4 className="text-[15px] font-black uppercase tracking-[0.2em] text-[#c5a059] mb-8">{t('ติดต่อเรา', 'Contact')}</h4>
+            <p className="text-slate-400 text-[14px] leading-relaxed font-bold tracking-wider uppercase">
               Tel: 084-317-0627 <br />
               Line: f.thanathep <br />
               {t('เวลาทำการ', 'Hours')}: 08:30 - 17:30
@@ -43,10 +43,10 @@ export const Footer: React.FC<FooterProps> = ({ onAdminLink, onCaseTracker }) =>
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
-          <div className="text-[10px] text-slate-600 uppercase tracking-[0.5em] font-bold">
+          <div className="text-[12px] text-slate-600 uppercase tracking-[0.2em] font-bold">
             &copy; 2024 THANATHEP PROHMCHANA. {t('สำนักงานที่ปรึกษากฎหมายและการว่าความ', 'ATTORNEY AT LAW & CONSULTANT.')}
           </div>
-          <div className="flex gap-12 text-[9px] uppercase tracking-[0.3em] font-bold text-slate-700">
+          <div className="flex gap-12 text-[13px] uppercase tracking-[0.2em] font-bold text-slate-700">
             <a href="#" className="hover:text-[#c5a059] transition-colors">{t('นโยบายความเป็นส่วนตัว', 'Privacy Policy')}</a>
             <button onClick={onAdminLink} className="opacity-10 hover:opacity-100 hover:text-[#c5a059] transition-all cursor-default">
               {t('จัดการระบบ', 'ADMIN')}

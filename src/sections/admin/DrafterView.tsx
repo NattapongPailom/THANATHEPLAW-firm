@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { Sparkles, Loader2, FileText, Copy } from 'lucide-react';
 import { backendService } from '../../services/backend';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const DrafterView: React.FC = () => {
+  const { t } = useLanguage();
   const [docType, setDocType] = useState('หนังสือบอกกล่าวทวงถาม (Notice)');
   const [docDetails, setDocDetails] = useState('');
   const [draftResult, setDraftResult] = useState('');
@@ -29,21 +31,21 @@ export const DrafterView: React.FC = () => {
     <div className="animate-reveal-up space-y-12">
       <div className="bg-slate-900/50 p-12 border border-[#c5a059]/30 rounded-sm">
         <h3 className="text-2xl font-serif-legal font-bold text-white mb-6 italic">Elite Document Drafter</h3>
-        <p className="text-slate-400 text-sm mb-10">ร่างเอกสารกฎหมายเบื้องต้นด้วยความแม่นยำสูง</p>
+        <p className="text-slate-400 text-sm mb-10">{t('ร่างเอกสารกฎหมายเบื้องต้นด้วยความแม่นยำสูง', 'Draft preliminary legal documents with high precision')}</p>
         <form onSubmit={handleDraft} className="space-y-8">
           <select 
             className="w-full bg-slate-800 border-b border-white/10 py-5 px-6 text-white outline-none focus:border-[#c5a059]" 
             value={docType} 
             onChange={(e) => setDocType(e.target.value)}
           >
-            <option>หนังสือบอกกล่าวทวงถาม (Notice)</option>
-            <option>สัญญาจ้างแรงงาน</option>
-            <option>บันทึกข้อตกลง (MOU)</option>
-            <option>สัญญาซื้อขาย</option>
+            <option>{t('หนังสือบอกกล่าวทวงถาม (Notice)', 'Demand Notice')}</option>
+            <option>{t('สัญญาจ้างแรงงาน', 'Employment Contract')}</option>
+            <option>{t('บันทึกข้อตกลง (MOU)', 'Memorandum of Understanding (MOU)')}</option>
+            <option>{t('สัญญาซื้อขาย', 'Sale and Purchase Agreement')}</option>
           </select>
           <textarea 
             className="w-full bg-slate-800 border border-white/10 p-8 text-white outline-none focus:border-[#c5a059] min-h-[200px]" 
-            placeholder="ระบุรายละเอียดสำคัญ เช่น ชื่อคู่สัญญา, จำนวนเงิน, เงื่อนไขหลัก..." 
+            placeholder={t('ระบุรายละเอียดสำคัญ เช่น ชื่อคู่สัญญา, จำนวนเงิน, เงื่อนไขหลัก...', 'Enter key details e.g. contracting parties, amount, main conditions...')} 
             value={docDetails} 
             onChange={(e) => setDocDetails(e.target.value)} 
           />

@@ -3,8 +3,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Loader2, Newspaper, Briefcase, Trash2, X, Image as ImageIcon, Sparkles, Send, Upload } from 'lucide-react';
 import { backendService } from '../../services/backend';
 import { NewsItem, CaseStudy } from '../../types';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
+  const { t } = useLanguage();
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -23,8 +25,13 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
 
   const loadContent = async () => {
     setLoading(true);
-    const data = type === 'news' ? await backendService.getAllNews() : await backendService.getAllCases();
-    setItems(data);
+    try {
+      const data = type === 'news' ? await backendService.getAllNews() : await backendService.getAllCases();
+      setItems(data);
+    } catch (e) {
+      console.error('Failed to load content:', e);
+      setItems([]);
+    }
     setLoading(false);
   };
 
@@ -59,7 +66,7 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
         await backendService.createNews({ 
           ...form, 
           fullContent: form.fullContent.split('\n'), 
-          readingTime: 'อ่าน 5 นาที', 
+          readingTime: t('อ่าน 5 นาที', '5 min read'), 
           tags: ['Legal'] 
         }, broadcastToSubscribers);
         alert("✅ News published successfully!");

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Clock, Loader2 } from 'lucide-react';
+import { ArrowRight, Clock, Loader2, Scale } from 'lucide-react';
 import { SectionHeader } from '../components/SectionHeader';
 import { useLanguage } from '../context/LanguageContext';
 import { NewsItem } from '../types';
@@ -17,8 +17,12 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await backendService.getAllNews();
-      setNews(data);
+      try {
+        const data = await backendService.getAllNews();
+        setNews(data);
+      } catch (e) {
+        console.error('Failed to load news:', e);
+      }
       setLoading(false);
     };
     fetchNews();
@@ -42,6 +46,11 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
         {loading ? (
           <div className="flex items-center justify-center py-32 text-[#c5a059]">
             <Loader2 className="animate-spin" size={40} />
+          </div>
+        ) : news.length === 0 ? (
+          <div className="py-32 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-sm">
+            <Scale size={48} className="text-slate-800 mb-6" />
+            <p className="text-slate-500 text-lg font-serif-legal italic">{t('ข้อมูลจะถูกนำมาแสดงในภายหลัง', 'Content will be available soon')}</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-10">

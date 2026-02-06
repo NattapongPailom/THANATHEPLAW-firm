@@ -16,13 +16,18 @@ service cloud.firestore {
 
     // ===== LEADS COLLECTION =====
     match /leads/{document=**} {
-      // Only admins can write/delete leads
-      allow create, update, delete: if isAdmin();
-      
+      // ✅ PUBLIC users can CREATE leads (contact form submission)
+      // This is required for the consultation request form to work
+      allow create: if true;
+
+      // Only admins can UPDATE/DELETE leads
+      allow update, delete: if isAdmin();
+
       // Clients can read their own lead by phone number in query
       // Admins can read all leads
-      allow read: if isAdmin() || 
-                     (request.auth != null);
+      allow read: if isAdmin() ||
+                     (request.auth != null) ||
+                     true; // Allow public read for case tracking by phone
     }
 
     // ===== CASE FILES COLLECTION - HIGHLY SENSITIVE =====
@@ -84,12 +89,19 @@ service cloud.firestore {
 
     // ===== INVOICES COLLECTION =====
     match /invoices/{document=**} {
-      allow read, write: if isAdmin();
+      // ✅ PUBLIC users can read invoices (for case tracking portal)
+      allow read: if true;
+      // Only admins can write invoices
+      allow write: if isAdmin();
     }
 
     // ===== SUBSCRIBERS COLLECTION (newsletter) =====
     match /subscribers/{document=**} {
-      allow read, write: if isAdmin();
+      // ✅ PUBLIC users can subscribe to newsletter
+      allow create: if true;
+      allow read: if true; // Needed to check if already subscribed
+      // Only admins can update/delete
+      allow update, delete: if isAdmin();
     }
 
     // ===== SENT EMAILS LOG =====

@@ -91,9 +91,11 @@ const App: React.FC = () => {
     return null;
   }, [showProfile, selectedService, selectedNews, view]);
 
+  const isLocalDev = window.location.hostname === 'localhost';
+
   const handleNavigate = (href: string) => {
     if (href === '#admin') {
-      setView('admin');
+      if (isLocalDev) setView('admin');
       return;
     }
 
@@ -122,7 +124,7 @@ const App: React.FC = () => {
             activeContext={navContext as any}
           />
           <main>
-            {view === 'admin' ? (
+            {view === 'admin' && isLocalDev ? (
               <AdminDashboard onBack={() => handleBackToMain()} />
             ) : (
               <>

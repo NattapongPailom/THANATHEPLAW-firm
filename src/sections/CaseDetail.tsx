@@ -86,7 +86,7 @@ export const CaseDetail: React.FC<CaseDetailProps> = ({ caseData, onBack }) => {
             <div className="my-24 p-16 bg-slate-900 border-l-[8px] border-[#c5a059] relative shadow-2xl rounded-sm">
               <Quote className="absolute top-10 left-10 text-[#c5a059]/10" size={160} />
               <p className="text-3xl md:text-4xl font-serif-legal italic text-white relative z-10 leading-relaxed">
-                {t(
+                {caseData.quote || t(
                   "ความยุติธรรมไม่ใช่เรื่องบังเอิญ แต่คือผลลัพธ์ของการวางกลยุทธ์ที่แม่นยำและการรักษาจริยธรรมวิชาชีพอย่างสูงสุด",
                   "Justice is not accidental; it is the result of precise strategy and the highest professional ethics."
                 )}
@@ -116,7 +116,10 @@ export const CaseDetail: React.FC<CaseDetailProps> = ({ caseData, onBack }) => {
             <div className="bg-white/[0.03] p-12 border-l-[2px] border-[#c5a059]/40 rounded-sm">
               <h4 className="text-[10px] font-black text-white uppercase tracking-[0.5em] mb-8">{t('ประเภทความช่วยเหลือ', 'SERVICE SCOPE')}</h4>
               <ul className="space-y-6">
-                {['Strategic Litigation', 'Contractual Framework', 'Alternative Dispute Resolution', 'High-Court Representation'].map((s, idx) => (
+                {(caseData.services && caseData.services.length > 0
+                  ? caseData.services
+                  : ['Strategic Litigation', 'Contractual Framework', 'Alternative Dispute Resolution', 'High-Court Representation']
+                ).map((s, idx) => (
                   <li key={idx} className="flex items-center gap-4 text-slate-400 text-lg font-light italic">
                     <div className="w-2 h-2 bg-[#c5a059] rounded-full"></div> {s}
                   </li>

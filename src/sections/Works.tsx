@@ -32,9 +32,15 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
   }, []);
 
   const categories = [
-    { id: 'all', label: t('ทั้งหมด', 'ALL ACHIEVEMENTS') },
-    { id: 'labor', label: t('คดีแรงงาน', 'LABOR LAW') },
-    { id: 'business', label: t('คดีธุรกิจ/แพ่ง', 'BUSINESS & CIVIL') }
+    { id: 'all', label: t('ทั้งหมด', 'ALL') },
+    { id: 'labor', label: t('แรงงาน', 'LABOR') },
+    { id: 'dispute', label: t('คดีความ', 'DISPUTE') },
+    { id: 'ip', label: t('ทรัพย์สินทางปัญญา', 'IP') },
+    { id: 'visa', label: t('วีซ่า', 'VISA') },
+    { id: 'enforcement', label: t('บังคับคดี', 'EXECUTION') },
+    { id: 'realestate', label: t('อสังหาฯ', 'REAL ESTATE') },
+    { id: 'family', label: t('ครอบครัว', 'FAMILY') },
+    { id: 'business', label: t('ธุรกิจ/แพ่ง', 'BUSINESS') }
   ];
 
   const filteredCases = activeTab === 'all' 
@@ -98,9 +104,6 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s] opacity-40 group-hover:opacity-100" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                    <div className="absolute top-8 left-8">
-                      <span className="bg-[#c5a059] text-white text-[9px] font-black px-6 py-2 uppercase tracking-widest shadow-2xl">{work.year}</span>
-                    </div>
                   </div>
                   
                   <div className="p-12 flex flex-col flex-grow relative z-10">

@@ -54,6 +54,8 @@ export interface CaseStudy {
   mainImage: string;
   gallery: string[];
   highlights: string[];
+  quote?: string;
+  services?: string[];
 }
 
 export type LeadStatus = 'new' | 'contacted' | 'negotiating' | 'contracted' | 'closed';

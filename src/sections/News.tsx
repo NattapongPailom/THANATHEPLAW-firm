@@ -55,7 +55,12 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
         ) : (
           <div className="grid md:grid-cols-3 gap-10">
             {news.map((item, idx) => (
-              <div key={item.id} className="group bg-slate-900/60 backdrop-blur-md border border-white/5 p-8 rounded-sm hover:bg-slate-900/90 hover:border-[#c5a059]/50 transition-all duration-500 shadow-xl flex flex-col h-full animate-reveal-up" style={{ animationDelay: `${idx * 0.1}s` }}>
+              <div
+                key={item.id}
+                onClick={() => onSelectNews && onSelectNews(item)}
+                className="group bg-slate-900/60 backdrop-blur-md border border-white/5 p-8 rounded-sm hover:bg-slate-900/90 hover:border-[#c5a059]/50 transition-all duration-500 shadow-xl flex flex-col h-full animate-reveal-up cursor-pointer"
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
                 <div className="relative mb-10 overflow-hidden aspect-video bg-slate-800">
                   <div className="absolute top-4 left-4 z-20">
                     <span className="bg-[#c5a059] text-white text-[9px] font-black px-4 py-2 uppercase tracking-widest shadow-lg">

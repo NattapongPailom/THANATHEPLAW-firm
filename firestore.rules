@@ -42,9 +42,9 @@ service cloud.firestore {
     match /news/{document=**} {
       // Only admins can write/delete
       allow create, update, delete: if isAdmin();
-      
-      // Admins can read all news, public can read published news
-      allow read: if isAdmin() || resource.data.published == true;
+
+      // Everyone can read news
+      allow read: if true;
     }
 
     // ===== CASE STUDIES COLLECTION =====

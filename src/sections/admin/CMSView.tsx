@@ -16,8 +16,10 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
 
   // Form State
   const [form, setForm] = useState<any>({
-    title: '', category: '', description: '', image: '', mainImage: '', author: '', fullContent: '', impact: '', year: '', imagePrompt: ''
+    title: '', category: '', description: '', image: '', mainImage: '', author: '', fullContent: '', impact: '', year: '', imagePrompt: '', highlights: '', quote: '', services: ''
   });
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadContent();
@@ -71,12 +73,31 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
         }, broadcastToSubscribers);
         alert("✅ News published successfully!");
       } else {
-        await backendService.createCase({ 
-          ...form, 
-          categoryLabel: form.category.toUpperCase(), 
-          fullContent: form.fullContent.split('\n'), 
-          gallery: [form.mainImage], 
-          highlights: ['Winning Result'] 
+        const highlightsArr = form.highlights.trim()
+          ? form.highlights.split('\n').map((h: string) => h.trim()).filter(Boolean)
+          : ['Winning Result'];
+        const servicesArr = form.services.trim()
+          ? form.services.split('\n').map((s: string) => s.trim()).filter(Boolean)
+          : [];
+        const galleryArr = [form.mainImage, ...galleryImages].filter(Boolean);
+        const categoryLabelMap: Record<string, string> = {
+          labor: 'LABOR LAW',
+          dispute: 'LITIGATION & DISPUTE',
+          ip: 'INTELLECTUAL PROPERTY',
+          visa: 'VISA & WORK PERMIT',
+          enforcement: 'LEGAL EXECUTION',
+          realestate: 'REAL ESTATE & CONSTRUCTION',
+          family: 'FAMILY & ESTATE',
+          business: 'BUSINESS & CIVIL'
+        };
+        await backendService.createCase({
+          ...form,
+          categoryLabel: categoryLabelMap[form.category] || form.category.toUpperCase(),
+          fullContent: form.fullContent.split('\n'),
+          gallery: galleryArr,
+          highlights: highlightsArr,
+          quote: form.quote.trim() || '',
+          services: servicesArr.length > 0 ? servicesArr : undefined
         });
         alert("✅ Case study published successfully!");
       }
@@ -90,7 +111,8 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
   };
 
   const resetForm = () => {
-    setForm({ title: '', category: '', description: '', image: '', mainImage: '', author: '', fullContent: '', impact: '', year: '', imagePrompt: '' });
+    setForm({ title: '', category: '', description: '', image: '', mainImage: '', author: '', fullContent: '', impact: '', year: '', imagePrompt: '', highlights: '', quote: '', services: '' });
+    setGalleryImages([]);
   };
 
   const handleDelete = async (id: number) => {
@@ -125,6 +147,36 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleGalleryUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        compressGalleryImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const compressGalleryImage = (base64String: string) => {
+    const img = new Image();
+    img.src = base64String;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxW = 1200, maxH = 800;
+      let w = img.width, h = img.height;
+      if (w > h) { if (w > maxW) { h = (h * maxW) / w; w = maxW; } }
+      else { if (h > maxH) { w = (w * maxH) / h; h = maxH; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d')?.drawImage(img, 0, 0, w, h);
+      let q = 0.8;
+      let result = canvas.toDataURL('image/jpeg', q);
+      while (result.length > 900000 && q > 0.3) { q -= 0.1; result = canvas.toDataURL('image/jpeg', q); }
+      if (result.length > 900000) { alert('Image too large'); return; }
+      setGalleryImages(prev => [...prev, result]);
+    };
   };
 
   const compressImage = (base64String: string) => {
@@ -255,13 +307,32 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
                 <div className="grid sm:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">Category</label>
-                    <input 
-                      required
-                      className="w-full bg-slate-950/50 border border-white/10 py-4 px-6 text-white text-sm outline-none focus:border-[#c5a059] transition-all" 
-                      placeholder="e.g. Labor Law, News" 
-                      value={form.category} 
-                      onChange={(e) => setForm({...form, category: e.target.value})} 
-                    />
+                    {type === 'cases' ? (
+                      <select
+                        required
+                        className="w-full bg-slate-950/50 border border-white/10 py-4 px-6 text-white text-sm outline-none focus:border-[#c5a059] transition-all cursor-pointer"
+                        value={form.category}
+                        onChange={(e) => setForm({...form, category: e.target.value})}
+                      >
+                        <option value="" disabled>{t('เลือกหมวดหมู่', 'Select Category')}</option>
+                        <option value="labor">{t('คดีแรงงาน', 'Labor Law')}</option>
+                        <option value="dispute">{t('คดีความ/ระงับข้อพิพาท', 'Litigation & Dispute')}</option>
+                        <option value="ip">{t('ทรัพย์สินทางปัญญา', 'Intellectual Property')}</option>
+                        <option value="visa">{t('วีซ่า/ใบอนุญาตทำงาน', 'Visa & Work Permit')}</option>
+                        <option value="enforcement">{t('การบังคับคดี', 'Legal Execution')}</option>
+                        <option value="realestate">{t('อสังหาริมทรัพย์/ก่อสร้าง', 'Real Estate & Construction')}</option>
+                        <option value="family">{t('ครอบครัว/มรดก', 'Family & Estate')}</option>
+                        <option value="business">{t('ธุรกิจ/แพ่ง', 'Business & Civil')}</option>
+                      </select>
+                    ) : (
+                      <input
+                        required
+                        className="w-full bg-slate-950/50 border border-white/10 py-4 px-6 text-white text-sm outline-none focus:border-[#c5a059] transition-all"
+                        placeholder="e.g. Legal Analysis, News"
+                        value={form.category}
+                        onChange={(e) => setForm({...form, category: e.target.value})}
+                      />
+                    )}
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">
@@ -380,16 +451,104 @@ export const CMSView: React.FC<{ type: 'news' | 'cases' }> = ({ type }) => {
                     <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">Primary Content Narrative</label>
                     <span className="text-[9px] text-slate-600 uppercase font-black">Use new line for each paragraph</span>
                   </div>
-                  <textarea 
-                    required 
-                    rows={10} 
-                    className="w-full bg-slate-950/50 border border-white/10 p-8 text-white text-base leading-relaxed outline-none focus:border-[#c5a059] transition-all placeholder:text-slate-800 rounded-sm" 
-                    placeholder="Draft the detailed article or case story here..." 
-                    value={form.fullContent} 
-                    onChange={(e) => setForm({...form, fullContent: e.target.value})} 
+                  <textarea
+                    required
+                    rows={10}
+                    className="w-full bg-slate-950/50 border border-white/10 p-8 text-white text-base leading-relaxed outline-none focus:border-[#c5a059] transition-all placeholder:text-slate-800 rounded-sm"
+                    placeholder="Draft the detailed article or case story here..."
+                    value={form.fullContent}
+                    onChange={(e) => setForm({...form, fullContent: e.target.value})}
                   />
                 </div>
-                
+
+                {type === 'cases' && (
+                  <>
+                    {/* Highlights / Achievements */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-end">
+                        <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">{t('ความสำเร็จ / Highlights', 'Achievements / Highlights')}</label>
+                        <span className="text-[9px] text-slate-600 uppercase font-black">{t('แต่ละบรรทัด = 1 ความสำเร็จ', 'Each line = 1 achievement')}</span>
+                      </div>
+                      <textarea
+                        rows={3}
+                        className="w-full bg-slate-950/50 border border-white/10 p-6 text-white text-sm leading-relaxed outline-none focus:border-[#c5a059] transition-all placeholder:text-slate-700 rounded-sm"
+                        placeholder={t('เช่น\nชนะคดี 10 ล้านบาท\nเจรจาสำเร็จใน 30 วัน', 'e.g.\n10M Baht Win\nSettled in 30 Days')}
+                        value={form.highlights}
+                        onChange={(e) => setForm({...form, highlights: e.target.value})}
+                      />
+                      <p className="text-[8px] text-slate-600 italic">{t('หากไม่กรอก จะแสดงเป็น "Winning Result" โดยอัตโนมัติ', 'If left empty, defaults to "Winning Result"')}</p>
+                    </div>
+
+                    {/* Blockquote */}
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">{t('ข้อความไฮไลท์ / Blockquote', 'Highlight Quote / Blockquote')}</label>
+                      <textarea
+                        rows={3}
+                        className="w-full bg-slate-950/50 border border-white/10 p-6 text-white text-sm leading-relaxed outline-none focus:border-[#c5a059] transition-all placeholder:text-slate-700 rounded-sm italic"
+                        placeholder={t('เช่น ความยุติธรรมไม่ใช่เรื่องบังเอิญ แต่คือผลลัพธ์ของการวางกลยุทธ์ที่แม่นยำ', 'e.g. Justice is not accidental; it is the result of precise strategy.')}
+                        value={form.quote}
+                        onChange={(e) => setForm({...form, quote: e.target.value})}
+                      />
+                      <p className="text-[8px] text-slate-600 italic">{t('หากไม่กรอก จะใช้ข้อความ default ของระบบ', 'If left empty, system default quote will be used')}</p>
+                    </div>
+
+                    {/* Gallery Images */}
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">{t('คลังรูปภาพเพิ่มเติม', 'Additional Gallery Images')}</label>
+                      <p className="text-[8px] text-slate-600 italic">{t('รูปปก (Hero Image) จะถูกรวมในคลังภาพโดยอัตโนมัติ สามารถเพิ่มรูปอื่นๆ ได้ที่นี่', 'Hero image is included automatically. Add extra images here.')}</p>
+
+                      <div className="flex flex-wrap gap-4">
+                        {galleryImages.map((img, idx) => (
+                          <div key={idx} className="relative group w-28 h-28 rounded-sm overflow-hidden border border-white/10">
+                            <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() => setGalleryImages(prev => prev.filter((_, i) => i !== idx))}
+                              className="absolute top-1 right-1 bg-red-500/80 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ))}
+
+                        <div className="flex flex-col gap-2">
+                          <input
+                            type="file"
+                            ref={galleryInputRef}
+                            onChange={handleGalleryUpload}
+                            className="hidden"
+                            accept="image/*"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => galleryInputRef.current?.click()}
+                            className="w-28 h-28 border-2 border-dashed border-white/10 hover:border-[#c5a059]/50 rounded-sm flex flex-col items-center justify-center text-slate-600 hover:text-[#c5a059] transition-all cursor-pointer"
+                          >
+                            <Plus size={24} />
+                            <span className="text-[8px] font-black uppercase mt-1">{t('เพิ่มรูป', 'Add')}</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Service Scope */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-end">
+                        <label className="text-[10px] font-black text-[#c5a059] uppercase tracking-widest">{t('ประเภทความช่วยเหลือ', 'Service Scope')}</label>
+                        <span className="text-[9px] text-slate-600 uppercase font-black">{t('แต่ละบรรทัด = 1 รายการ', 'Each line = 1 item')}</span>
+                      </div>
+                      <textarea
+                        rows={4}
+                        className="w-full bg-slate-950/50 border border-white/10 p-6 text-white text-sm leading-relaxed outline-none focus:border-[#c5a059] transition-all placeholder:text-slate-700 rounded-sm"
+                        placeholder={t('เช่น\nดำเนินคดีเชิงกลยุทธ์\nร่างสัญญา\nไกล่เกลี่ยข้อพิพาท\nว่าความศาลชั้นสูง', 'e.g.\nStrategic Litigation\nContractual Framework\nAlternative Dispute Resolution\nHigh-Court Representation')}
+                        value={form.services}
+                        onChange={(e) => setForm({...form, services: e.target.value})}
+                      />
+                      <p className="text-[8px] text-slate-600 italic">{t('หากไม่กรอก จะใช้รายการ default ของระบบ', 'If left empty, system default services will be used')}</p>
+                    </div>
+                  </>
+                )}
+
                 {type === 'news' && (
                   <div className="pt-6 border-t border-white/5">
                     <label className="flex items-center gap-4 cursor-pointer group">

@@ -135,7 +135,7 @@ const App: React.FC = () => {
                 )}
                 
                 {selectedService && (
-                  <ServiceDetail service={selectedService} onBack={() => handleBackToMain('expertise')} />
+                  <ServiceDetail service={selectedService} onBack={handleBackToMain} />
                 )}
 
                 {selectedNews && (

@@ -30,7 +30,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
   const disputeHighlights = [
     { th: "คดีผิดสัญญา การฟ้องร้องเมื่ออีกฝ่ายไม่ปฏิบัติตามข้อตกลงในสัญญา", en: "Breach of Contract: Litigation for non-compliance." },
     { th: "คดีครอบครัว การฟ้องหย่า การฟ้องชู้เรียกค่าทดแทน การร้องขออำนาจปกครองบุตร และการแบ่งสินสมรส", en: "Family Law: Divorce, alimony, child custody, and marital asset division." },
-    { th: "คดีมรดก การร้องขอตั้งผู้จัดการมรดก, การฟ้องแบ่งทรัพย์มรดกระหว่างทายาท และพิพาทเรื่องพินัยกรรม", en: "Inheritance Law: Estate administrator requests and will disputes." },
+    { th: "คดีมรดก การร้องขอตั้งผู้จัดการมรดก การฟ้องแบ่งทรัพย์มรดกระหว่างทายาท และพิพาทเรื่องพินัยกรรม", en: "Inheritance Law: Estate administrator requests and will disputes." },
     { th: "คดีละเมิด การเรียกค่าสินไหมทดแทนจากการที่ถูกผู้อื่นกระทำโดยมิชอบด้วยกฎหมาย", en: "Tort Claims: Seeking compensation for illegal acts causing damage." },
     { th: "คดีเกี่ยวกับองค์กรและธุรกิจ ข้อพิพาทระหว่างผู้ถือหุ้น การฟ้องร้องกรรมการบริษัท", en: "Corporate & Business: Shareholder and director liability disputes." },
     { th: "คดีก่อสร้าง ข้อพิพาทระหว่างเจ้าของโครงการและผู้รับเหมา เกี่ยวกับการทิ้งงาน งานล่าช้า", en: "Construction Law: Disputes regarding work abandonment or delays." },
@@ -41,7 +41,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
   ];
 
   const ipHighlights = [
-    { th: "การจดทะเบียนและคุ้มครองสิทธิ (IP Registration): เครื่องหมายการค้า, สิทธิบัตร, ลิขสิทธิ์ และความลับทางการค้า", en: "IP Registration: Trademarks, Patents, Copyrights, and Trade Secrets." },
+    { th: "การจดทะเบียนและคุ้มครองสิทธิ (IP Registration): เครื่องหมายการค้า สิทธิบัตร ลิขสิทธิ์ และความลับทางการค้า", en: "IP Registration: Trademarks, Patents, Copyrights, and Trade Secrets." },
     { th: "การบริหารจัดการสัญญาและสิทธิ (IP Transactions): สัญญาอนุญาตให้ใช้สิทธิ และสัญญาแฟรนไชส์", en: "IP Transactions: Licensing and Franchise Agreements." },
     { th: "การบังคับใช้สิทธิและคดีความ (IP Enforcement & Litigation): การออกหนังสือเตือน และคดีละเมิด", en: "IP Enforcement: Cease and Desist Letters and Litigation." },
     { th: "การไกล่เกลี่ยข้อพิพาทด้านทรัพย์สินทางปัญญา เพื่อรักษาชื่อเสียงและลดระยะเวลาการดำเนินคดี", en: "IP Dispute Mediation to safeguard reputation and reduce court time." }
@@ -55,7 +55,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
   ];
 
   const enforcementHighlights = [
-    { th: "การสืบทรัพย์: บริการสืบค้นทรัพย์สินของลูกหนี้ทั่วราชอาณาจักร (ที่ดิน, บัญชีธนาคาร, ยานพาหนะ)", en: "Asset Tracing: Nationwide debtor asset searches." },
+    { th: "การสืบทรัพย์: บริการสืบค้นทรัพย์สินของลูกหนี้ทั่วราชอาณาจักร", en: "Asset Tracing: Nationwide debtor asset searches." },
     { th: "การยึดและอายัดทรัพย์: ดำเนินการยึดอสังหาริมทรัพย์และอายัดสิทธิเรียกร้องตามคำพิพากษา", en: "Seizure & Garnishment: Real estate and claim execution." },
     { th: "การขายทอดตลาด: ประสานงานขั้นตอนการนำทรัพย์สินออกขายทอดตลาดที่กรมบังคับคดี", en: "Public Auction: Coordination at the Legal Execution Department." },
     { th: "การแถลงคัดค้าน/รวบรวมทรัพย์: ดูแลสิทธิในชั้นบังคับคดี ทั้งฝั่งเจ้าหนี้และลูกหนี้", en: "Legal Statements: Managing rights in the execution phase." }

@@ -48,7 +48,7 @@ export const Footer: React.FC<FooterProps> = ({ onAdminLink, onCaseTracker }) =>
           </div>
           <div className="flex gap-12 text-[13px] uppercase tracking-[0.2em] font-bold text-slate-700">
             <a href="#" className="hover:text-[#c5a059] transition-colors">{t('นโยบายความเป็นส่วนตัว', 'Privacy Policy')}</a>
-            <button onClick={onAdminLink} className="opacity-10 hover:opacity-100 hover:text-[#c5a059] transition-all cursor-default">
+            <button onClick={onAdminLink} className="opacity-0 hover:opacity-0 hover:text-[#black] transition-all cursor-default">
               {t('จัดการระบบ', 'ADMIN')}
             </button>
           </div>

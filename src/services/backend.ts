@@ -197,8 +197,10 @@ export const backendService = {
     }
   },
 
-  async getAllNews(): Promise<NewsItem[]> {
-    const q = query(collection(db, "news"), orderBy("date", "desc"));
+  async getAllNews(publishedOnly: boolean = false): Promise<NewsItem[]> {
+    const constraints: any[] = [orderBy("date", "desc")];
+    if (publishedOnly) constraints.unshift(where("published", "==", true));
+    const q = query(collection(db, "news"), ...constraints);
     const snap = await getDocs(q);
     return snap.docs.map(d => ({ id: parseInt(d.id), ...(d.data() as any) } as any));
   },

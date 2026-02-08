@@ -134,7 +134,7 @@ export const LeadsView: React.FC = () => {
                     </div>
                   </td>
                   <td className="px-12 py-12 align-top max-w-lg">
-                    <p className="text-slate-400 text-sm line-clamp-2 italic">"{lead.details}"</p>
+                    <p className="text-slate-400 text-sm italic whitespace-pre-wrap break-words">"{lead.details}"</p>
                     {lead.aiSummary && <p className="mt-4 text-[10px] text-[#c5a059] font-bold uppercase tracking-widest bg-[#c5a059]/5 p-2 border-l border-[#c5a059]">AI Summary: {lead.aiSummary}</p>}
                   </td>
                   <td className="px-12 py-12 align-top text-right space-y-4">

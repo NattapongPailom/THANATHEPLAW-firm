@@ -129,7 +129,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
       </button>
 
       {/* Hero Banner with Zoom Animation */}
-      <div className="relative h-[60vh] sm:h-[70vh] flex items-center justify-center overflow-hidden">
+      <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
             src={service.mainImage} 
@@ -138,11 +138,11 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
           />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/95 via-slate-950/60 to-slate-950"></div>
         </div>
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <div className="text-[#c5a059] mb-8 sm:mb-10 flex justify-center transform scale-[1.8] sm:scale-[2.5] animate-[revealUp_1.2s_cubic-bezier(0.22,1,0.36,1)]">
             {service.icon}
           </div>
-          <h1 className="text-3xl sm:text-5xl md:text-8xl font-serif-legal font-bold text-white mb-4 sm:mb-6 uppercase tracking-tight animate-[revealUp_1.4s_cubic-bezier(0.22,1,0.36,1)]">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-serif-legal font-bold text-white mb-4 sm:mb-6 uppercase tracking-tight animate-[revealUp_1.4s_cubic-bezier(0.22,1,0.36,1)]">
             {service.title}
           </h1>
           <p className="text-sm sm:text-xl md:text-2xl text-[#c5a059] font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase italic animate-[revealUp_1.6s_cubic-bezier(0.22,1,0.36,1)]">
@@ -152,8 +152,8 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
       </div>
 
       {/* Content Narrative Section */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 -mt-20 sm:-mt-32 relative z-20 pb-48">
-        <div className="bg-slate-900/90 backdrop-blur-3xl border border-white/5 p-6 sm:p-12 lg:p-24 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-sm">
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 -mt-16 sm:-mt-24 md:-mt-32 relative z-20 pb-16 sm:pb-24 md:pb-48">
+        <div className="bg-slate-900/90 backdrop-blur-3xl border border-white/5 p-4 sm:p-8 md:p-12 lg:p-24 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-sm">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             <div className="text-left animate-[revealUp_1s_ease-out]">
               <div className="flex items-center gap-4 mb-6 sm:mb-8">
@@ -181,7 +181,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
           {featuredData && (
             <div className="mt-20 sm:mt-32 bg-slate-950 border border-[#c5a059]/20 rounded-sm overflow-hidden flex flex-col lg:flex-row shadow-2xl animate-[revealUp_1.4s_ease-out]">
               {/* Left Side: Category Title */}
-              <div className="lg:w-1/3 p-8 sm:p-12 lg:p-16 bg-[#c5a059] text-white flex flex-col justify-center text-left relative overflow-hidden group">
+              <div className="lg:w-1/3 p-6 sm:p-8 md:p-12 lg:p-16 bg-[#c5a059] text-white flex flex-col justify-center text-left relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-125 transition-transform duration-1000"></div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif-legal font-bold mb-4 sm:mb-8 leading-tight relative z-10">
                   {featuredTitle}
@@ -192,7 +192,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
               </div>
               
               {/* Right Side: Scope of Service List */}
-              <div className="lg:w-2/3 p-6 sm:p-12 lg:p-16 bg-slate-950 text-left relative">
+              <div className="lg:w-2/3 p-4 sm:p-8 md:p-12 lg:p-16 bg-slate-950 text-left relative">
                 <div className="space-y-6 sm:space-y-10">
                   {featuredData.map((item, idx) => (
                     <div 
@@ -234,7 +234,7 @@ export const ServiceDetail: React.FC<ServiceDetailProps> = ({ service, onBack })
         )}
 
         {/* Bottom CTA */}
-        <div className="mt-32 sm:mt-48 text-center py-20 sm:py-32 border-y border-white/10 relative overflow-hidden group">
+        <div className="mt-16 sm:mt-24 md:mt-32 lg:mt-48 text-center py-12 sm:py-20 md:py-32 border-y border-white/10 relative overflow-hidden group">
            <div className="absolute inset-0 opacity-10 pointer-events-none">
               <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-[#c5a059] to-transparent"></div>
               <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-[#c5a059] to-transparent"></div>

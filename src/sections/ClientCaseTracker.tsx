@@ -44,15 +44,25 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
     }
   };
 
-  const handleDownloadFile = (file: CaseFile) => {
-    if (file.url.startsWith('firestore://')) {
-      // For Firestore-stored files, redirect to view
-      alert(t('ระบบกำลังประมวลผล กรุณารอสักครู่...', 'Processing, please wait...'));
-      // In production, this would fetch the file from Firestore
-    } else {
-      // For external links
-      window.open(file.url, '_blank');
+  const getDownloadUrl = (url: string): string => {
+    // Google Drive: convert view link to direct download
+    const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (driveMatch) {
+      return `https://drive.google.com/uc?export=download&id=${driveMatch[1]}`;
     }
+    return url;
+  };
+
+  const handleOpenFile = (file: CaseFile) => {
+    if (!file.url || file.url.startsWith('firestore://')) return;
+    const downloadUrl = getDownloadUrl(file.url);
+    window.open(downloadUrl, '_blank');
+  };
+
+  const handleDownloadFile = (file: CaseFile) => {
+    if (!file.url || file.url.startsWith('firestore://')) return;
+    const downloadUrl = getDownloadUrl(file.url);
+    window.open(downloadUrl, '_blank');
   };
 
   return (
@@ -184,12 +194,15 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
                     {files.map((file) => (
                       <div key={file.id} className="bg-slate-950/50 border border-white/5 p-4 rounded-sm hover:border-[#c5a059]/30 transition-all group">
                         <div className="flex items-center justify-between gap-4">
-                          <div className="flex items-center gap-4 flex-1 min-w-0">
+                          <div
+                            className="flex items-center gap-4 flex-1 min-w-0 cursor-pointer"
+                            onClick={() => handleOpenFile(file)}
+                          >
                             <div className="p-2 bg-[#c5a059]/10 rounded-sm flex-shrink-0">
                               <FileText size={20} className="text-[#c5a059]" />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-white font-bold text-sm truncate">{file.name}</p>
+                              <p className="text-white font-bold text-sm truncate group-hover:text-[#c5a059] transition-colors">{file.name}</p>
                               <div className="flex items-center gap-3 mt-1 text-[9px] text-slate-500">
                                 <span>{file.fileSize}</span>
                                 <span>•</span>
@@ -198,7 +211,7 @@ export const ClientCaseTracker: React.FC<ClientCaseTrackerProps> = ({ onClose })
                             </div>
                           </div>
                           <button
-                            onClick={() => handleDownloadFile(file)}
+                            onClick={(e) => { e.stopPropagation(); handleDownloadFile(file); }}
                             className="flex-shrink-0 p-2 hover:bg-white/5 rounded-sm transition-all text-slate-500 hover:text-[#c5a059]"
                             title={t('ดาวน์โหลด', 'Download')}
                           >

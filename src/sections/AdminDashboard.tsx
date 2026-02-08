@@ -75,9 +75,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
     };
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 relative text-center">
-        <div className="w-full max-w-md bg-slate-900 p-12 border border-white/10 rounded-sm shadow-2xl animate-reveal-up">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-serif-legal font-bold text-white mb-2 italic">Elite Portal</h2>
+        <div className="w-full max-w-md bg-slate-900 p-6 sm:p-10 md:p-12 border border-white/10 rounded-sm shadow-2xl animate-reveal-up">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif-legal font-bold text-white mb-2 italic">Elite Portal</h2>
             <p className="text-slate-500 text-[10px] uppercase tracking-[0.4em] font-black">Authorized Access Only</p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-10">
@@ -130,10 +130,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
   const isTabInCMS = ['news', 'cases'].includes(activeTab);
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-32 pb-24 text-left">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+    <div className="min-h-screen bg-slate-950 pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-24 text-left">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 sm:mb-12 md:mb-16 gap-6 sm:gap-10">
           <div>
             <div className="flex items-center gap-4 mb-4">
               <div className="h-px w-12 bg-[#c5a059]"></div>
@@ -143,17 +143,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                 <span className="text-[8px] font-black uppercase tracking-widest">{isOnline ? 'Firebase Connected' : 'Connection Lost'}</span>
               </div>
             </div>
-            <h1 className="text-5xl font-serif-legal font-bold text-white italic">Admin Dashboard</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif-legal font-bold text-white italic">Admin Dashboard</h1>
           </div>
           <button 
             onClick={logout} 
-            className="text-slate-500 hover:text-red-400 text-[15px] font-black uppercase tracking-widest flex items-center gap-3 transition-colors border border-white/5 px-6 py-3 rounded-sm hover:bg-white/5"
+            className="text-slate-500 hover:text-red-400 text-[11px] sm:text-[13px] md:text-[15px] font-black uppercase tracking-widest flex items-center gap-3 transition-colors border border-white/5 px-4 sm:px-6 py-2.5 sm:py-3 rounded-sm hover:bg-white/5"
           >
             <LogOut size={14} /> Logout
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 mb-20 border-b border-white/5 pb-0" ref={dropdownRef}>
+        <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-10 sm:mb-14 md:mb-20 border-b border-white/5 pb-0" ref={dropdownRef}>
           <div className="flex items-center">
             <button 
               onClick={() => handleTabSelect('leads')}
@@ -269,8 +269,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
 
       {/* Simulated Email Dispatcher Overlay */}
       {dispatchedEmail && (
-        <div className="fixed inset-0 z-[200000] flex items-center justify-center p-6 bg-slate-950/90 backdrop-blur-md">
-           <div className="w-full max-w-2xl bg-slate-900 border border-[#c5a059]/30 shadow-2xl overflow-hidden animate-reveal-up flex flex-col rounded-sm">
+        <div className="fixed inset-0 z-[200000] flex items-center justify-center p-4 sm:p-6 bg-slate-950/90 backdrop-blur-md">
+           <div className="w-full max-w-2xl bg-slate-900 border border-[#c5a059]/30 shadow-2xl overflow-hidden animate-reveal-up flex flex-col rounded-sm max-h-[90vh] overflow-y-auto">
               <div className="bg-slate-950 p-6 flex justify-between items-center border-b border-[#c5a059]/20">
                  <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-[#c5a059]/20 flex items-center justify-center text-[#c5a059] rounded-full">

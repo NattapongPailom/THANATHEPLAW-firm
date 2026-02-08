@@ -13,15 +13,15 @@ export const About: React.FC<AboutProps> = ({ onShowProfile }) => {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="py-48 bg-slate-950 relative overflow-hidden flex flex-col items-center justify-center">
+    <section id="about" className="py-16 sm:py-24 md:py-32 lg:py-48 bg-slate-950 relative overflow-hidden flex flex-col items-center justify-center">
       {/* Artistic Background Elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c5a059]/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] lg:w-[800px] lg:h-[800px] bg-[#c5a059]/5 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-px h-1/2 bg-[#c5a059]"></div>
         <div className="absolute top-1/4 right-1/4 w-px h-1/2 bg-[#c5a059]"></div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 w-full flex flex-col items-center">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 w-full flex flex-col items-center">
         <div ref={ref} className={`${className} relative z-10 w-full max-w-2xl`}>
           
           {/* Enhanced Centered Profile Container */}
@@ -72,14 +72,14 @@ export const About: React.FC<AboutProps> = ({ onShowProfile }) => {
           </div>
 
           {/* Simple Centered Action Button below image */}
-          <div className="mt-20 flex flex-col items-center space-y-6">
-            <div className="w-px h-16 bg-gradient-to-b from-[#c5a059] to-transparent"></div>
-            <button 
+          <div className="mt-10 sm:mt-14 md:mt-20 flex flex-col items-center space-y-4 sm:space-y-6">
+            <div className="w-px h-10 sm:h-16 bg-gradient-to-b from-[#c5a059] to-transparent"></div>
+            <button
               onClick={onShowProfile}
-              className="group flex items-center gap-6 text-[20px] font-black uppercase tracking-[0.2em] text-[#c5a059] hover:text-white transition-all"
+              className="group flex items-center gap-3 sm:gap-6 text-sm sm:text-base md:text-lg lg:text-xl font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#c5a059] hover:text-white transition-all"
             >
               {t('อ่านประวัติโดยละเอียด', 'OPEN PORTFOLIO')}
-              <div className="w-12 h-[1px] bg-[#c5a059] group-hover:w-24 group-hover:bg-white transition-all duration-700"></div>
+              <div className="w-8 sm:w-12 h-[1px] bg-[#c5a059] group-hover:w-16 sm:group-hover:w-24 group-hover:bg-white transition-all duration-700"></div>
             </button>
           </div>
         </div>

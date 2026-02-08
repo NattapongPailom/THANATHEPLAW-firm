@@ -184,7 +184,7 @@ export const CasePortfolioEditor: React.FC<CasePortfolioEditorProps> = ({ lead, 
         
         const emailResult = await backendService.sendSimulatedEmail({
           to: lead.email,
-          subject: `Elite Counsel Case Update: ${eventTitle}`,
+          subject: `Thanathep Law Firm Case Update: ${eventTitle}`,
           body: emailBody,
           type: 'milestone',
           canReply: true

@@ -169,7 +169,7 @@ export const backendService = {
           subject: payload.subject,
           message: payload.body,
           type: payload.type,
-          reply_to: payload.canReply ? "thanathep.lawfirm@gmail.com" : "no-reply@elitecounsel.com"
+          reply_to: payload.canReply ? "thanathep.lawfirm@gmail.com" : "no-reply@thanatheplaw.com"
         });
       } catch (e) { console.error("EmailJS error", e); }
     }
@@ -219,7 +219,7 @@ export const backendService = {
         await this.sendSimulatedEmail({
           to: email,
           subject: `ใหม่: ${data.title}`,
-          body: `อ่านบทความล่าสุดจาก Elite Counsel: ${data.title}\n\n${data.description}`,
+          body: `สำนักงานกฎหมาย Thanathep Law Firm\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📰 บทความใหม่ล่าสุด\n\n"${data.title}"\n\nหมวดหมู่: ${data.category || 'Legal Insight'}\nเขียนโดย: ${data.author || 'Thanathep Law Firm'}\n\n${data.description}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nอ่านบทความฉบับเต็มได้ที่เว็บไซต์ของเรา\nwww.thanatheplaw.com\n\nขอแสดงความนับถือ,\nThanathep Law Firm`,
           type: 'broadcast',
           canReply: false
         });

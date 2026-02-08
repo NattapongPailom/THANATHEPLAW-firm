@@ -29,7 +29,7 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
   }, []);
 
   return (
-    <section id="news" className="py-48 bg-slate-950 relative overflow-hidden">
+    <section id="news" className="py-16 sm:py-24 md:py-32 lg:py-48 bg-slate-950 relative overflow-hidden">
       {/* Background Decorative */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -40,7 +40,7 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 text-left relative z-10">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 text-left relative z-10">
         <SectionHeader title={t("ข่าวสารและบทความ", "Latest Insights")} subtitle={t("บทวิเคราะห์ทางกฎหมาย", "Legal Analysis")} light />
         
         {loading ? (
@@ -53,17 +53,17 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
             <p className="text-slate-500 text-lg font-serif-legal italic">{t('ข้อมูลจะถูกนำมาแสดงในภายหลัง', 'Content will be available soon')}</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
             {news.map((item, idx) => (
               <div
                 key={item.id}
                 onClick={() => onSelectNews && onSelectNews(item)}
-                className="group bg-slate-900/60 backdrop-blur-md border border-white/5 p-8 rounded-sm hover:bg-slate-900/90 hover:border-[#c5a059]/50 transition-all duration-500 shadow-xl flex flex-col h-full animate-reveal-up cursor-pointer"
+                className="group bg-slate-900/60 backdrop-blur-md border border-white/5 p-4 sm:p-6 md:p-8 rounded-sm hover:bg-slate-900/90 hover:border-[#c5a059]/50 transition-all duration-500 shadow-xl flex flex-col h-full animate-reveal-up cursor-pointer"
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
-                <div className="relative mb-10 overflow-hidden aspect-video bg-slate-800">
-                  <div className="absolute top-4 left-4 z-20">
-                    <span className="bg-[#c5a059] text-white text-[9px] font-black px-4 py-2 uppercase tracking-widest shadow-lg">
+                <div className="relative mb-6 sm:mb-8 md:mb-10 overflow-hidden aspect-video bg-slate-800">
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20">
+                    <span className="bg-[#c5a059] text-white text-[8px] sm:text-[9px] font-black px-3 py-1.5 sm:px-4 sm:py-2 uppercase tracking-widest shadow-lg">
                       {item.category}
                     </span>
                   </div>
@@ -74,14 +74,14 @@ export const News: React.FC<NewsProps> = ({ onSelectNews }) => {
                   />
                 </div>
 
-                <div className="space-y-6 flex flex-col flex-grow">
+                <div className="space-y-4 sm:space-y-6 flex flex-col flex-grow">
                   <div className="flex items-center gap-4 text-slate-500">
                     <span className="text-[10px] font-bold tracking-[0.2em]">{item.date}</span>
                     <div className="w-1 h-1 bg-white/20 rounded-full"></div>
                     <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest"><Clock size={10} /> {item.readingTime}</span>
                   </div>
                   
-                  <h3 className="text-xl font-bold font-serif-legal text-white group-hover:text-[#c5a059] transition-colors leading-snug h-[3.5rem] overflow-hidden">
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold font-serif-legal text-white group-hover:text-[#c5a059] transition-colors leading-snug h-[3rem] sm:h-[3.5rem] overflow-hidden">
                     {item.title}
                   </h3>
                   <p className="text-sm text-slate-400 font-light leading-relaxed line-clamp-3">

@@ -123,17 +123,17 @@ export const Expertise: React.FC<ExpertiseProps> = ({ onSelectService }) => {
   const serviceCategories = getServiceCategories(t);
 
   return (
-    <section id="expertise" className="py-48 bg-slate-950 relative z-10 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 text-left relative z-10">
+    <section id="expertise" className="py-16 sm:py-24 md:py-32 lg:py-48 bg-slate-950 relative z-10 overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 text-left relative z-10">
         <SectionHeader title={t('Comprehensive Solutions', 'Comprehensive Solutions')} subtitle={t('บริการทางกฎหมายครบวงจร', 'Legal Practice Areas')} light />
         
         {/* Changed from gap-px and bg-white/5 to gap-4 and transparent bg to make empty areas invisible */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 bg-transparent">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 bg-transparent">
           {serviceCategories.map((service) => (
             <div 
               key={service.id} 
               onClick={() => onSelectService(service)}
-              className="relative bg-slate-900 p-12 lg:p-16 hover:bg-[#c5a059]/90 transition-all duration-700 group text-left cursor-pointer border border-white/5 hover:border-[#c5a059] rounded-sm overflow-hidden shadow-2xl"
+              className="relative bg-slate-900 p-6 sm:p-8 md:p-12 lg:p-16 hover:bg-[#c5a059]/90 transition-all duration-700 group text-left cursor-pointer border border-white/5 hover:border-[#c5a059] rounded-sm overflow-hidden shadow-2xl"
             >
               {/* Image Background Layer */}
               <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] group-hover:opacity-10 transition-all duration-1000 transform group-hover:scale-110">
@@ -146,7 +146,7 @@ export const Expertise: React.FC<ExpertiseProps> = ({ onSelectService }) => {
                 <div className="text-[#c5a059] group-hover:text-white mb-12 transform scale-[1.8] origin-left transition-all duration-500 group-hover:scale-[1.6]">
                   {service.icon}
                 </div>
-                <h3 className="text-2xl font-bold mb-6 font-serif-legal text-white uppercase tracking-wider leading-snug group-hover:translate-x-2 transition-transform duration-500">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 font-serif-legal text-white uppercase tracking-wider leading-snug group-hover:translate-x-2 transition-transform duration-500">
                   {service.title}
                 </h3>
                 <p className="text-slate-400 group-hover:text-white/90 text-sm leading-relaxed font-light mb-10 line-clamp-3">

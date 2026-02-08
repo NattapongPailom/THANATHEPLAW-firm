@@ -63,7 +63,7 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
       {/* 1. Main Profile Section (Split Image/Text) */}
       <div className="flex flex-col lg:flex-row min-h-screen relative border-b border-white/5">
         {/* Visual Column (Left) */}
-        <div className="w-full lg:w-2/5 h-[50vh] sm:h-[60vh] lg:h-screen relative lg:sticky lg:top-0 overflow-hidden bg-slate-900">
+        <div className="w-full lg:w-2/5 h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-screen relative lg:sticky lg:top-0 overflow-hidden bg-slate-900">
           <img 
             src="/profile.jpg" 
             alt="Thanathep Prohmchana" 
@@ -74,7 +74,7 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
           <div className="absolute top-10 right-10 opacity-10 hidden lg:block rotate-12 pointer-events-none">
             <Scale size={120} className="text-[#c5a059]" strokeWidth={0.5} />
           </div>
-          <div className="absolute bottom-6 sm:bottom-20 left-4 sm:left-10 right-4 sm:right-10 p-5 sm:p-10 bg-slate-950/80 backdrop-blur-xl border-l-4 border-[#c5a059] shadow-2xl">
+          <div className="absolute bottom-6 sm:bottom-20 left-4 sm:left-10 right-4 sm:right-10 p-4 sm:p-6 md:p-10 bg-slate-950/80 backdrop-blur-xl border-l-4 border-[#c5a059] shadow-2xl">
             <Quote className="text-[#c5a059] opacity-30 mb-2 sm:mb-4" size={24} />
             <p className="text-sm sm:text-xl font-serif-legal italic text-white/90 leading-relaxed">
               {t(
@@ -86,14 +86,14 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
         </div>
 
         {/* Content Column (Right) */}
-        <div className="w-full lg:w-3/5 p-6 sm:p-12 lg:p-24 lg:pt-40 text-left bg-slate-950 space-y-24 sm:space-y-32">
+        <div className="w-full lg:w-3/5 p-4 sm:p-8 md:p-12 lg:p-24 lg:pt-40 text-left bg-slate-950 space-y-16 sm:space-y-24 md:space-y-32">
           {/* Hero Content */}
           <section className="animate-reveal-up">
             <div className="flex items-center gap-4 mb-4 sm:mb-8">
               <div className="w-8 sm:w-12 h-[1px] bg-[#c5a059]"></div>
               <span className="text-[#c5a059] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] sm:tracking-[0.5em]">ATTORNEY AT LAW</span>
             </div>
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-serif-legal font-bold text-white mb-6 sm:mb-10 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-serif-legal font-bold text-white mb-6 sm:mb-10 leading-tight">
               ธนเทพ <span className="text-white block sm:inline">พรหมชนะ</span>
             </h1>
             <p className="text-lg sm:text-2xl md:text-3xl font-light text-slate-400 mb-8 sm:mb-12 italic border-l-2 border-white/10 pl-5 sm:pl-8">
@@ -170,13 +170,13 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
       </div>
 
       {/* 2. Standalone Centered Contact Section (Transparent Background) */}
-      <section className="py-24 sm:py-32 bg-transparent text-center px-6 relative overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 bg-transparent text-center px-4 sm:px-6 relative overflow-hidden">
         {/* Subtle Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-20 bg-gradient-to-b from-[#c5a059] to-transparent"></div>
         
         <div className="max-w-5xl mx-auto">
           <div className="mb-16">
-            <h3 className="text-3xl sm:text-5xl font-serif-legal font-bold text-white mb-6">
+            <h3 className="text-2xl sm:text-3xl md:text-5xl font-serif-legal font-bold text-white mb-6">
               {t('ข้อมูลติดต่อส่วนตัว', 'Direct Communication Channels')}
             </h3>
             <div className="w-12 h-1 bg-[#c5a059] mx-auto opacity-50"></div>
@@ -206,12 +206,12 @@ export const ProfileDetail: React.FC<ProfileDetailProps> = ({ onBack }) => {
       </section>
 
       {/* 3. Standalone Centered CTA Section */}
-      <section className="py-32 bg-slate-900 border-t border-white/5 text-center px-6">
+      <section className="py-16 sm:py-24 md:py-32 bg-slate-900 border-t border-white/5 text-center px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <p className="text-[#c5a059] uppercase tracking-[0.5em] text-[10px] font-black mb-8 animate-pulse">
             {t('พร้อมสำหรับการเริ่มต้น', 'READY TO MOVE FORWARD?')}
           </p>
-          <h4 className="text-4xl sm:text-6xl font-serif-legal font-bold text-white mb-16 italic">
+          <h4 className="text-2xl sm:text-4xl md:text-6xl font-serif-legal font-bold text-white mb-8 sm:mb-12 md:mb-16 italic">
             {t('นัดหมายปรึกษาทนายธนเทพ', 'Schedule Your Consultation')}
           </h4>
           

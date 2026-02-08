@@ -48,7 +48,7 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
     : cases.filter(c => c.category === activeTab);
 
   return (
-    <section id="works" className="py-48 bg-slate-950 relative overflow-hidden">
+    <section id="works" className="py-16 sm:py-24 md:py-32 lg:py-48 bg-slate-950 relative overflow-hidden">
       {/* Subtle Luxury Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div className="grid grid-cols-12 h-full">
@@ -56,7 +56,7 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
         </div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 text-left relative z-10">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 text-left relative z-10">
         <div ref={ref} className={className}>
           <SectionHeader 
             title={t('Major Milestones', 'Significant Milestones')} 
@@ -64,12 +64,12 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
             light 
           />
           
-          <div className="flex flex-wrap gap-12 mb-24 border-b border-white/5 pb-10">
+          <div className="flex flex-wrap gap-3 sm:gap-4 md:gap-6 lg:gap-12 mb-10 sm:mb-16 md:mb-24 border-b border-white/5 pb-6 sm:pb-8 md:pb-10">
             {categories.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`text-[13px] font-black uppercase tracking-[0.2em] transition-all relative pb-6 ${
+                className={`text-[10px] sm:text-[11px] md:text-[13px] font-black uppercase tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.2em] transition-all relative pb-3 sm:pb-4 md:pb-6 ${
                   activeTab === cat.id ? 'text-[#c5a059]' : 'text-slate-500 hover:text-white'
                 }`}
               >
@@ -90,7 +90,7 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
               <p className="text-slate-500 text-lg font-serif-legal italic">{t('ข้อมูลจะถูกนำมาแสดงในภายหลัง', 'Content will be available soon')}</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
               {filteredCases.map((work) => (
                 <div 
                   key={work.id} 
@@ -106,17 +106,17 @@ export const Works: React.FC<WorksProps> = ({ onSelectCase }) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
                   </div>
                   
-                  <div className="p-12 flex flex-col flex-grow relative z-10">
-                    <div className="flex items-center gap-3 text-[#c5a059] mb-6">
+                  <div className="p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col flex-grow relative z-10">
+                    <div className="flex items-center gap-2 sm:gap-3 text-[#c5a059] mb-4 sm:mb-6">
                       <Trophy size={14} />
-                      <span className="text-[13px] font-black uppercase tracking-[0.2em]">{work.impact}</span>
+                      <span className="text-[11px] sm:text-[13px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em]">{work.impact}</span>
                     </div>
                     
-                    <h3 className="text-2xl font-bold font-serif-legal text-white mb-6 leading-snug group-hover:text-[#c5a059] transition-colors h-[4rem] overflow-hidden italic">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold font-serif-legal text-white mb-4 sm:mb-6 leading-snug group-hover:text-[#c5a059] transition-colors h-[3rem] sm:h-[4rem] overflow-hidden italic">
                       {work.title}
                     </h3>
                     
-                    <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
+                    <div className="mt-auto pt-6 sm:pt-8 md:pt-10 border-t border-white/5 flex justify-between items-center">
                       <span className="text-[9px] text-slate-600 font-black uppercase tracking-[0.3em]">{work.categoryLabel}</span>
                       <button className="text-[10px] font-black uppercase tracking-[0.4em] text-white group-hover:text-[#c5a059] transition-all flex items-center gap-4">
                         {t('รายละเอียด', 'VIEW')} 
